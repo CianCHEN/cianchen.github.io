@@ -1,239 +1,898 @@
 <!DOCTYPE html>
-<html>
-<head><meta name="generator" content="Hexo 3.8.0">
-  <meta charset="utf-8">
-  
+
+
+
+
+
+
+
+
+
+
+
 
   
-  <title>Zabbix LLD Discovery - zabbix监控之低等级发现 | Hexo</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+
+<html class="theme-next pisces use-motion" lang="zh-CN">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=6.6.0" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=6.6.0">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=6.6.0">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=6.6.0">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=6.6.0" color="#222">
+
+
+
+
+
+
+
+
+
+<script id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '6.6.0',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
   <meta name="description" content="1.zabbix 的Regular expressions以下是一个zabbix文件系统自动发现的正则表达式，匹配到的话返回true：下面看一下文件系统自动发现的具体配置：在zabbix server通过zabbix_get获取一下文件系统发现的全部key：">
 <meta name="keywords" content="hexo,zabbix">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Zabbix LLD Discovery - zabbix监控之低等级发现">
-<meta property="og:url" content="http://yoursite.com/2018/12/21/Zabbix-LLD-Discovery-zabbix监控之低等级发现/index.html">
-<meta property="og:site_name" content="Hexo">
+<meta property="og:url" content="http://192.168.36.183:6888/2018/12/21/Zabbix-LLD-Discovery-zabbix监控之低等级发现/index.html">
+<meta property="og:site_name" content="CianCHEN">
 <meta property="og:description" content="1.zabbix 的Regular expressions以下是一个zabbix文件系统自动发现的正则表达式，匹配到的话返回true：下面看一下文件系统自动发现的具体配置：在zabbix server通过zabbix_get获取一下文件系统发现的全部key：">
-<meta property="og:locale" content="default">
-<meta property="og:image" content="http://yoursite.com/2018/12/21/Zabbix-LLD-Discovery-zabbix监控之低等级发现/1.png">
-<meta property="og:image" content="http://yoursite.com/2018/12/21/Zabbix-LLD-Discovery-zabbix监控之低等级发现/2.png">
-<meta property="og:image" content="http://yoursite.com/2018/12/21/Zabbix-LLD-Discovery-zabbix监控之低等级发现/3.png">
-<meta property="og:image" content="http://yoursite.com/2018/12/21/Zabbix-LLD-Discovery-zabbix监控之低等级发现/4.png">
-<meta property="og:image" content="http://yoursite.com/2018/12/21/Zabbix-LLD-Discovery-zabbix监控之低等级发现/5.png">
-<meta property="og:image" content="http://yoursite.com/2018/12/21/Zabbix-LLD-Discovery-zabbix监控之低等级发现/6.png">
-<meta property="og:image" content="http://yoursite.com/2018/12/21/Zabbix-LLD-Discovery-zabbix监控之低等级发现/7.png">
-<meta property="og:image" content="http://yoursite.com/2018/12/21/Zabbix-LLD-Discovery-zabbix监控之低等级发现/8.png">
-<meta property="og:image" content="http://yoursite.com/2018/12/21/Zabbix-LLD-Discovery-zabbix监控之低等级发现/9.png">
-<meta property="og:image" content="http://yoursite.com/2018/12/21/Zabbix-LLD-Discovery-zabbix监控之低等级发现/10.png">
-<meta property="og:image" content="http://yoursite.com/2018/12/21/Zabbix-LLD-Discovery-zabbix监控之低等级发现/11.png">
-<meta property="og:image" content="http://yoursite.com/2018/12/21/Zabbix-LLD-Discovery-zabbix监控之低等级发现/12.png">
-<meta property="og:image" content="http://yoursite.com/2018/12/21/Zabbix-LLD-Discovery-zabbix监控之低等级发现/13.png">
-<meta property="og:image" content="http://yoursite.com/2018/12/21/Zabbix-LLD-Discovery-zabbix监控之低等级发现/14.png">
-<meta property="og:image" content="http://yoursite.com/2018/12/21/Zabbix-LLD-Discovery-zabbix监控之低等级发现/15.png">
-<meta property="og:image" content="http://yoursite.com/2018/12/21/Zabbix-LLD-Discovery-zabbix监控之低等级发现/16.png">
-<meta property="og:image" content="http://yoursite.com/2018/12/21/Zabbix-LLD-Discovery-zabbix监控之低等级发现/17.png">
-<meta property="og:image" content="http://yoursite.com/2018/12/21/Zabbix-LLD-Discovery-zabbix监控之低等级发现/18.png">
-<meta property="og:image" content="http://yoursite.com/2018/12/21/Zabbix-LLD-Discovery-zabbix监控之低等级发现/19.png">
-<meta property="og:updated_time" content="2018-12-23T03:17:25.256Z">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="http://192.168.36.183:6888/2018/12/21/Zabbix-LLD-Discovery-zabbix监控之低等级发现/1.png">
+<meta property="og:image" content="http://192.168.36.183:6888/2018/12/21/Zabbix-LLD-Discovery-zabbix监控之低等级发现/2.png">
+<meta property="og:image" content="http://192.168.36.183:6888/2018/12/21/Zabbix-LLD-Discovery-zabbix监控之低等级发现/3.png">
+<meta property="og:image" content="http://192.168.36.183:6888/2018/12/21/Zabbix-LLD-Discovery-zabbix监控之低等级发现/4.png">
+<meta property="og:image" content="http://192.168.36.183:6888/2018/12/21/Zabbix-LLD-Discovery-zabbix监控之低等级发现/5.png">
+<meta property="og:image" content="http://192.168.36.183:6888/2018/12/21/Zabbix-LLD-Discovery-zabbix监控之低等级发现/6.png">
+<meta property="og:image" content="http://192.168.36.183:6888/2018/12/21/Zabbix-LLD-Discovery-zabbix监控之低等级发现/7.png">
+<meta property="og:image" content="http://192.168.36.183:6888/2018/12/21/Zabbix-LLD-Discovery-zabbix监控之低等级发现/8.png">
+<meta property="og:image" content="http://192.168.36.183:6888/2018/12/21/Zabbix-LLD-Discovery-zabbix监控之低等级发现/9.png">
+<meta property="og:image" content="http://192.168.36.183:6888/2018/12/21/Zabbix-LLD-Discovery-zabbix监控之低等级发现/10.png">
+<meta property="og:image" content="http://192.168.36.183:6888/2018/12/21/Zabbix-LLD-Discovery-zabbix监控之低等级发现/11.png">
+<meta property="og:image" content="http://192.168.36.183:6888/2018/12/21/Zabbix-LLD-Discovery-zabbix监控之低等级发现/12.png">
+<meta property="og:image" content="http://192.168.36.183:6888/2018/12/21/Zabbix-LLD-Discovery-zabbix监控之低等级发现/13.png">
+<meta property="og:image" content="http://192.168.36.183:6888/2018/12/21/Zabbix-LLD-Discovery-zabbix监控之低等级发现/14.png">
+<meta property="og:image" content="http://192.168.36.183:6888/2018/12/21/Zabbix-LLD-Discovery-zabbix监控之低等级发现/15.png">
+<meta property="og:image" content="http://192.168.36.183:6888/2018/12/21/Zabbix-LLD-Discovery-zabbix监控之低等级发现/16.png">
+<meta property="og:image" content="http://192.168.36.183:6888/2018/12/21/Zabbix-LLD-Discovery-zabbix监控之低等级发现/17.png">
+<meta property="og:image" content="http://192.168.36.183:6888/2018/12/21/Zabbix-LLD-Discovery-zabbix监控之低等级发现/18.png">
+<meta property="og:image" content="http://192.168.36.183:6888/2018/12/21/Zabbix-LLD-Discovery-zabbix监控之低等级发现/19.png">
+<meta property="og:image" content="http://192.168.36.183:6888/2018/12/21/Zabbix-LLD-Discovery-zabbix监控之低等级发现/20.png">
+<meta property="og:image" content="http://192.168.36.183:6888/2018/12/21/Zabbix-LLD-Discovery-zabbix监控之低等级发现/21.png">
+<meta property="og:image" content="http://192.168.36.183:6888/2018/12/21/Zabbix-LLD-Discovery-zabbix监控之低等级发现/22.png">
+<meta property="og:image" content="http://192.168.36.183:6888/2018/12/21/Zabbix-LLD-Discovery-zabbix监控之低等级发现/23.png">
+<meta property="og:image" content="http://192.168.36.183:6888/2018/12/21/Zabbix-LLD-Discovery-zabbix监控之低等级发现/24.png">
+<meta property="og:image" content="http://192.168.36.183:6888/2018/12/21/Zabbix-LLD-Discovery-zabbix监控之低等级发现/25.png">
+<meta property="og:image" content="http://192.168.36.183:6888/2018/12/21/Zabbix-LLD-Discovery-zabbix监控之低等级发现/26.png">
+<meta property="og:updated_time" content="2018-12-23T07:19:31.896Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Zabbix LLD Discovery - zabbix监控之低等级发现">
 <meta name="twitter:description" content="1.zabbix 的Regular expressions以下是一个zabbix文件系统自动发现的正则表达式，匹配到的话返回true：下面看一下文件系统自动发现的具体配置：在zabbix server通过zabbix_get获取一下文件系统发现的全部key：">
-<meta name="twitter:image" content="http://yoursite.com/2018/12/21/Zabbix-LLD-Discovery-zabbix监控之低等级发现/1.png">
-  
-    <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
-  
-  
-    <link rel="icon" href="/favicon.png">
-  
-  
-    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
-  
-  <link rel="stylesheet" href="/css/style.css">
-</head>
-</html>
-<body>
-  <div id="container">
-    <div id="wrap">
-      <header id="header">
-  <div id="banner"></div>
-  <div id="header-outer" class="outer">
-    <div id="header-title" class="inner">
-      <h1 id="logo-wrap">
-        <a href="/" id="logo">Hexo</a>
-      </h1>
-      
-    </div>
-    <div id="header-inner" class="inner">
-      <nav id="main-nav">
-        <a id="main-nav-toggle" class="nav-icon"></a>
-        
-          <a class="main-nav-link" href="/">Home</a>
-        
-          <a class="main-nav-link" href="/archives">Archives</a>
-        
-      </nav>
-      <nav id="sub-nav">
-        
-          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
-        
-        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
-      </nav>
-      <div id="search-form-wrap">
-        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
-      </div>
-    </div>
-  </div>
-</header>
-      <div class="outer">
-        <section id="main"><article id="post-Zabbix-LLD-Discovery-zabbix监控之低等级发现" class="article article-type-post" itemscope="" itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2018/12/21/Zabbix-LLD-Discovery-zabbix监控之低等级发现/" class="article-date">
-  <time datetime="2018-12-21T07:12:03.000Z" itemprop="datePublished">2018-12-21</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 class="article-title" itemprop="name">
-      Zabbix LLD Discovery - zabbix监控之低等级发现
-    </h1>
+<meta name="twitter:image" content="http://192.168.36.183:6888/2018/12/21/Zabbix-LLD-Discovery-zabbix监控之低等级发现/1.png">
+
+
+
+
+
+
+  <link rel="canonical" href="http://192.168.36.183:6888/2018/12/21/Zabbix-LLD-Discovery-zabbix监控之低等级发现/">
+
+
+
+<script id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>Zabbix LLD Discovery - zabbix监控之低等级发现 | CianCHEN</title>
   
 
+
+
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+    .use-motion .motion-element,
+    .use-motion .brand,
+    .use-motion .menu-item,
+    .sidebar-inner,
+    .use-motion .post-block,
+    .use-motion .pagination,
+    .use-motion .comments,
+    .use-motion .post-header,
+    .use-motion .post-body,
+    .use-motion .collection-title { opacity: initial; }
+
+    .use-motion .logo,
+    .use-motion .site-title,
+    .use-motion .site-subtitle {
+      opacity: initial;
+      top: initial;
+    }
+
+    .use-motion .logo-line-before i { left: initial; }
+    .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope="" itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">CianCHEN</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+      
+        <p class="site-subtitle">分享我所知</p>
+      
+    
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>首页</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-about">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/about/" rel="section"><i class="menu-item-icon fa fa-fw fa-user"></i> <br>关于</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br>标签</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-categories">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/categories" rel="section"><i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br>分类</a>
+
+  </li>
+
+      
+      
+    </ul>
+  
+
+  
+
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+            
+
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://192.168.36.183:6888/2018/12/21/Zabbix-LLD-Discovery-zabbix监控之低等级发现/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Cian">
+      <meta itemprop="description" content="90h">
+      <meta itemprop="image" content="/img/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="CianCHEN">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Zabbix LLD Discovery - zabbix监控之低等级发现
+
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2018-12-21 15:12:03" itemprop="dateCreated datePublished" datetime="2018-12-21T15:12:03+08:00">2018-12-21</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2018-12-23 15:19:31" itemprop="dateModified" datetime="2018-12-23T15:19:31+08:00">2018-12-23</time>
+              
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing"><a href="/categories/Zabbix-监控/" itemprop="url" rel="index"><span itemprop="name">Zabbix 监控</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
       </header>
     
-    <div class="article-entry" itemprop="articleBody">
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
       
-        <h2 id="1-zabbix-的Regular-expressions"><a href="#1-zabbix-的Regular-expressions" class="headerlink" title="1.zabbix 的Regular expressions"></a>1.zabbix 的Regular expressions</h2><p>以下是一个zabbix文件系统自动发现的正则表达式，匹配到的话返回true：<br><img src="/2018/12/21/Zabbix-LLD-Discovery-zabbix监控之低等级发现/1.png" alt="1"><br>下面看一下文件系统自动发现的具体配置：<br><img src="/2018/12/21/Zabbix-LLD-Discovery-zabbix监控之低等级发现/2.png" alt="2"><br>在zabbix server通过zabbix_get获取一下文件系统发现的全部key：<br><img src="/2018/12/21/Zabbix-LLD-Discovery-zabbix监控之低等级发现/3.png" alt="3"><br><a id="more"></a><br>可以观察到，这里匹配{\#FSTYPE}的这个key，必须要符合上述正则表达式(返回True)才会返回，这个是zabbix自带的自动发现。<br>再说说这个Filters的作用：<br>实际上就是一个限制作用，只有符合我们自定义的规则，才会返回到zabbix的监控项，否则就不返回，这个看个人具体需求，适合一些已知的监控项，比如文件系统，网卡类型等。如果是不可控的可变类型，建议不要使用，会导致匹配失败而不能发现监控项。</p>
+      
+
+      
+        <h2 id="1-zabbix-的Regular-expressions"><a href="#1-zabbix-的Regular-expressions" class="headerlink" title="1.zabbix 的Regular expressions"></a>1.zabbix 的Regular expressions</h2><p>以下是一个zabbix文件系统自动发现的正则表达式，匹配到的话返回true：<br><img src="/2018/12/21/Zabbix-LLD-Discovery-zabbix监控之低等级发现/1.png" alt="1"><br>下面看一下文件系统自动发现的具体配置：<br><img src="/2018/12/21/Zabbix-LLD-Discovery-zabbix监控之低等级发现/2.png" alt="2"><br>在zabbix server通过zabbix_get获取一下文件系统发现的全部key：<br><img src="/2018/12/21/Zabbix-LLD-Discovery-zabbix监控之低等级发现/3.png" alt="3"><br><a id="more"></a><br>可以观察到，这里匹配<code>{ #FSTYPE }</code>的这个key，必须要符合上述正则表达式(返回True)才会返回，这个是zabbix自带的自动发现。<br>再说说这个Filters的作用：<br>实际上就是一个限制作用，只有符合我们自定义的规则，才会返回到zabbix的监控项，否则就不返回，这个看个人具体需求，适合一些已知的监控项，比如文件系统，网卡类型等。如果是不可控的可变类型，建议不要使用，会导致匹配失败而不能发现监控项。</p>
 <h2 id="2-监控实例"><a href="#2-监控实例" class="headerlink" title="2.监控实例"></a>2.监控实例</h2><h3 id="2-1-单监控key"><a href="#2-1-单监控key" class="headerlink" title="2.1 单监控key"></a>2.1 单监控key</h3><h4 id="实例1-监控mysql是否在线"><a href="#实例1-监控mysql是否在线" class="headerlink" title="实例1 监控mysql是否在线"></a>实例1 监控mysql是否在线</h4><h4 id="2-1-1-新建监控模板"><a href="#2-1-1-新建监控模板" class="headerlink" title="2.1.1 新建监控模板"></a>2.1.1 新建监控模板</h4><p>通常我的做法是新加一个lld规则，新建一个模板，填上模板名称即可<br><img src="/2018/12/21/Zabbix-LLD-Discovery-zabbix监控之低等级发现/4.png" alt="4"></p>
 <h4 id="2-1-2-新建应用-aapplication"><a href="#2-1-2-新建应用-aapplication" class="headerlink" title="2.1.2 新建应用(aapplication)"></a>2.1.2 新建应用(aapplication)</h4><p><img src="/2018/12/21/Zabbix-LLD-Discovery-zabbix监控之低等级发现/5.png" alt="5"><br>我这里把下一个实例的应用也同时创建了<br><img src="/2018/12/21/Zabbix-LLD-Discovery-zabbix监控之低等级发现/6.png" alt="6"></p>
-<h4 id="2-1-3-添加监控脚本"><a href="#2-1-3-添加监控脚本" class="headerlink" title="2.1.3 添加监控脚本"></a>2.1.3 添加监控脚本</h4><p>这一步是重点，通过自定义的脚本来为zabbix添加自定义key<br><img src="/2018/12/21/Zabbix-LLD-Discovery-zabbix监控之低等级发现/7.png" alt="7"><br>脚本输出必须为标准的json格式，至于用py 还是 shell自己选择，我是觉得系统数据获取还是shell比较方便<br><img src="/2018/12/21/Zabbix-LLD-Discovery-zabbix监控之低等级发现/8.png" alt="8"><br>修改zabbix_agentd.conf<br><img src="/2018/12/21/Zabbix-LLD-Discovery-zabbix监控之低等级发现/9.png" alt="9"><br>重启zabbix_agentd 就可以获取对应添加的key了，下面测试一下<br><img src="/2018/12/21/Zabbix-LLD-Discovery-zabbix监控之低等级发现/10.png" alt="10"><br>mysql.alived 就是添加的自定义key，可以正常返回<br>获取对应{\#MYSQL_PORT} 端口的值：<br>zabbix_get -s 192.168.236.32 -k “mysql.alive[5500]“<br>以上测试通过之后可以进行下一步，这里注意脚本的权限，zabbix用户务必具有执行权限。</p>
+<h4 id="2-1-3-添加监控脚本"><a href="#2-1-3-添加监控脚本" class="headerlink" title="2.1.3 添加监控脚本"></a>2.1.3 添加监控脚本</h4><p>这一步是重点，通过自定义的脚本来为zabbix添加自定义key<br><img src="/2018/12/21/Zabbix-LLD-Discovery-zabbix监控之低等级发现/7.png" alt="7"><br>脚本输出必须为标准的json格式，至于用py 还是 shell自己选择，我是觉得系统数据获取还是shell比较方便<br><img src="/2018/12/21/Zabbix-LLD-Discovery-zabbix监控之低等级发现/8.png" alt="8"><br>修改zabbix_agentd.conf<br><img src="/2018/12/21/Zabbix-LLD-Discovery-zabbix监控之低等级发现/9.png" alt="9"><br>重启zabbix_agentd 就可以获取对应添加的key了，下面测试一下<br><img src="/2018/12/21/Zabbix-LLD-Discovery-zabbix监控之低等级发现/10.png" alt="10"><br>mysql.alived 就是添加的自定义key，可以正常返回<br>获取对应<code>{ #MYSQL_PORT }</code> 端口的值：<br><code>zabbix_get -s 192.168.236.32 -k &quot;mysql.alive[5500]&quot;</code><br>以上测试通过之后可以进行下一步，这里注意脚本的权限，zabbix用户务必具有执行权限。</p>
 <h4 id="2-1-4-配置zabbix自动发现"><a href="#2-1-4-配置zabbix自动发现" class="headerlink" title="2.1.4 配置zabbix自动发现"></a>2.1.4 配置zabbix自动发现</h4><h5 id="在zabbix面板新建两个discovery-rules"><a href="#在zabbix面板新建两个discovery-rules" class="headerlink" title="在zabbix面板新建两个discovery rules"></a>在zabbix面板新建两个discovery rules</h5><p><img src="/2018/12/21/Zabbix-LLD-Discovery-zabbix监控之低等级发现/11.png" alt="new discovery rules"></p>
 <h5 id="配置discovery-rule，这里Filters暂时不使用"><a href="#配置discovery-rule，这里Filters暂时不使用" class="headerlink" title="配置discovery rule，这里Filters暂时不使用"></a>配置discovery rule，这里Filters暂时不使用</h5><p><img src="/2018/12/21/Zabbix-LLD-Discovery-zabbix监控之低等级发现/12.png" alt="configure discovery rules"></p>
 <h5 id="为模板添加items"><a href="#为模板添加items" class="headerlink" title="为模板添加items"></a>为模板添加items</h5><p><img src="/2018/12/21/Zabbix-LLD-Discovery-zabbix监控之低等级发现/13.png" alt="new items"></p>
 <h5 id="配置items"><a href="#配置items" class="headerlink" title="配置items"></a>配置items</h5><p><img src="/2018/12/21/Zabbix-LLD-Discovery-zabbix监控之低等级发现/14.png" alt="configure items"></p>
 <h5 id="创建报警触发器"><a href="#创建报警触发器" class="headerlink" title="创建报警触发器"></a>创建报警触发器</h5><p><img src="/2018/12/21/Zabbix-LLD-Discovery-zabbix监控之低等级发现/15.png" alt="new tigger"></p>
-<h5 id="配置触发器"><a href="#配置触发器" class="headerlink" title="配置触发器"></a>配置触发器</h5><p><img src="/2018/12/21/Zabbix-LLD-Discovery-zabbix监控之低等级发现/16.png" alt="configure tigger"><br>我这里是正常返会1，异常返回0。当最后一次的值小于1时触发告警，告警级别为Disaster。</p>
+<h5 id="配置触发器"><a href="#配置触发器" class="headerlink" title="配置触发器"></a>配置触发器</h5><p><img src="/2018/12/21/Zabbix-LLD-Discovery-zabbix监控之低等级发现/16.png" alt="configure tigger"><br><code>我这里是正常返会1，异常返回0。当最后一次的值小于1时触发告警，告警级别为Disaster。</code></p>
 <h5 id="创建监控图表"><a href="#创建监控图表" class="headerlink" title="创建监控图表"></a>创建监控图表</h5><p><img src="/2018/12/21/Zabbix-LLD-Discovery-zabbix监控之低等级发现/17.png" alt="new graph"> </p>
 <h5 id="配置监控图表"><a href="#配置监控图表" class="headerlink" title="配置监控图表"></a>配置监控图表</h5><p><img src="/2018/12/21/Zabbix-LLD-Discovery-zabbix监控之低等级发现/18.png" alt="confiugre graph"><br>以上就完成一个lld 自动发现模板的配置了。</p>
 <h4 id="2-1-5-监控测试"><a href="#2-1-5-监控测试" class="headerlink" title="2.1.5 监控测试"></a>2.1.5 监控测试</h4><p>进入到套用此模板的服务器，查看自动发现item是否已经正常加入监控。我们过滤一下mysql_alived这个application，可以看到监控项正常加入<br><img src="/2018/12/21/Zabbix-LLD-Discovery-zabbix监控之低等级发现/19.png" alt="items"></p>
-<h5 id="测试告警可以关闭监控mysql进行。"><a href="#测试告警可以关闭监控mysql进行。" class="headerlink" title="测试告警可以关闭监控mysql进行。"></a>测试告警可以关闭监控mysql进行。</h5><h4 id="实例2-监控mysql主从-一从多主-关系是否正常"><a href="#实例2-监控mysql主从-一从多主-关系是否正常" class="headerlink" title="实例2 监控mysql主从(一从多主)关系是否正常"></a>实例2 监控mysql主从(一从多主)关系是否正常</h4><h3 id="2-2-多监控key"><a href="#2-2-多监控key" class="headerlink" title="2.2 多监控key"></a>2.2 多监控key</h3>
+<h5 id="测试告警可以关闭监控mysql进行。"><a href="#测试告警可以关闭监控mysql进行。" class="headerlink" title="测试告警可以关闭监控mysql进行。"></a>测试告警可以关闭监控mysql进行。</h5><h4 id="实例2-监控mysql主从-一从多主-关系是否正常"><a href="#实例2-监控mysql主从-一从多主-关系是否正常" class="headerlink" title="实例2 监控mysql主从(一从多主)关系是否正常"></a>实例2 监控mysql主从(一从多主)关系是否正常</h4><h5 id="参照2-1的配置就行了，就是修改一下key的名称即可。"><a href="#参照2-1的配置就行了，就是修改一下key的名称即可。" class="headerlink" title="参照2.1的配置就行了，就是修改一下key的名称即可。"></a>参照2.1的配置就行了，就是修改一下key的名称即可。</h5><h3 id="2-2-多监控key"><a href="#2-2-多监控key" class="headerlink" title="2.2 多监控key"></a>2.2 多监控key</h3><h4 id="实例1-监控mysql主从-一从多主-延时"><a href="#实例1-监控mysql主从-一从多主-延时" class="headerlink" title="实例1 监控mysql主从(一从多主)延时"></a>实例1 监控mysql主从(一从多主)延时</h4><h4 id="2-2-1-监控脚本返回"><a href="#2-2-1-监控脚本返回" class="headerlink" title="2.2.1 监控脚本返回"></a>2.2.1 监控脚本返回</h4><p>这个的步骤其实跟上边也是差不多的，先来看看监控返回格式<br><img src="/2018/12/21/Zabbix-LLD-Discovery-zabbix监控之低等级发现/20.png" alt="json return"><br>这里其实就跟一开始我们分析的文件系统自动返现那里是类似的。跟上例子不一样的是，这里使用了两个json key作为一个分组，分别是<code>{ #MYSQL_PORT }</code> `{ #CHANNEL_NAME },我们现在要实现的是监控这些端口下所有channel的mysql主从同步的 Second_behind_master参数，所以我们必须先得到所有的mysql port 和 每个port 下对应的channel名称才能得到Second_behind_master的值。</p>
+<p>这里mysql.behind 也是自定义的监控key，在zabbix_agentd.conf进行自定义添加即可。</p>
+<h4 id="2-2-2-配置regular-expression"><a href="#2-2-2-配置regular-expression" class="headerlink" title="2.2.2 配置regular expression"></a>2.2.2 配置regular expression</h4><p>新建一个regular expression，这里用途是匹配一从多主的channel_name,等下会用到<br><img src="/2018/12/21/Zabbix-LLD-Discovery-zabbix监控之低等级发现/21.png" alt="reg expression"></p>
+<h4 id="2-2-3-配置zabbix-自动发现"><a href="#2-2-3-配置zabbix-自动发现" class="headerlink" title="2.2.3 配置zabbix 自动发现"></a>2.2.3 配置zabbix 自动发现</h4><p>新建一个模板，新建application，新建discovery rule<br><img src="/2018/12/21/Zabbix-LLD-Discovery-zabbix监控之低等级发现/22.png" alt="reg expression"><br>这里filters使用上边刚刚添加的regular expression<br><img src="/2018/12/21/Zabbix-LLD-Discovery-zabbix监控之低等级发现/23.png" alt="reg expression"><br>新建items<br><img src="/2018/12/21/Zabbix-LLD-Discovery-zabbix监控之低等级发现/24.png" alt="new items"><br>这里<code>{ #MYSQL_PORT }</code> 和 <code>{ #CHANNEL_NAME }</code> 的使用其实就很明确了，你得事先让zabbix知道他们分别代指什么东西，之后zabbix就能将他们作为数据参数来使用了，这就是为什么一开始就要先获取到这两个key的全部数据。</p>
+<p>接下来添加触发器和添加图标的操作是一样的：<br>下面是图表添加的范例<br><img src="/2018/12/21/Zabbix-LLD-Discovery-zabbix监控之低等级发现/25.png" alt="new graph"></p>
+<h4 id="2-2-4-监控测试"><a href="#2-2-4-监控测试" class="headerlink" title="2.2.4 监控测试"></a>2.2.4 监控测试</h4><p>进入到套用模板的机器，过滤对应的application<br><img src="/2018/12/21/Zabbix-LLD-Discovery-zabbix监控之低等级发现/26.png" alt="dashbord"></p>
+
       
     </div>
-    <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/12/21/Zabbix-LLD-Discovery-zabbix监控之低等级发现/" data-id="cjpxrx3b20001otqsl2nqnnpq" class="article-share-link">Share</a>
-      
-      
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/hexo/">hexo</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/zabbix/">zabbix</a></li></ul>
 
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/hexo/" rel="tag"># hexo</a>
+          
+            <a href="/tags/zabbix/" rel="tag"># zabbix</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/12/21/hello-world/" rel="next" title="Hello World">
+                <i class="fa fa-chevron-left"></i> Hello World
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
     </footer>
   </div>
   
-    
-<nav id="article-nav">
   
   
-    <a href="/2018/12/21/hello-world/" id="article-nav-older" class="article-nav-link-wrap">
-      <strong class="article-nav-caption">Older</strong>
-      <div class="article-nav-title">Hello World</div>
-    </a>
-  
-</nav>
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
 
   
-</article>
 
-</section>
+
+
+        </div>
         
-          <aside id="sidebar">
+          
   
-    
-
-  
-    
-  <div class="widget-wrap">
-    <h3 class="widget-title">Tags</h3>
-    <div class="widget">
-      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/hexo/">hexo</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/zabbix/">zabbix</a></li></ul>
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
     </div>
   </div>
 
-
-  
+  <aside id="sidebar" class="sidebar">
     
-  <div class="widget-wrap">
-    <h3 class="widget-title">Tag Cloud</h3>
-    <div class="widget tagcloud">
-      <a href="/tags/hexo/" style="font-size: 10px;">hexo</a> <a href="/tags/zabbix/" style="font-size: 10px;">zabbix</a>
-    </div>
-  </div>
+    <div class="sidebar-inner">
 
-  
-    
-  <div class="widget-wrap">
-    <h3 class="widget-title">Archives</h3>
-    <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/12/">December 2018</a></li></ul>
-    </div>
-  </div>
+      
 
-
-  
-    
-  <div class="widget-wrap">
-    <h3 class="widget-title">Recent Posts</h3>
-    <div class="widget">
-      <ul>
-        
-          <li>
-            <a href="/2018/12/21/Zabbix-LLD-Discovery-zabbix监控之低等级发现/">Zabbix LLD Discovery - zabbix监控之低等级发现</a>
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
           </li>
-        
-          <li>
-            <a href="/2018/12/21/hello-world/">Hello World</a>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
           </li>
-        
-      </ul>
-    </div>
-  </div>
+        </ul>
+      
 
-  
-</aside>
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/img/avatar.jpg" alt="Cian">
+            
+              <p class="site-author-name" itemprop="name">Cian</p>
+              <p class="site-description motion-element" itemprop="description">90h</p>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">2</span>
+                    <span class="site-state-item-name">日志</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  <a href="/categories/index.html">
+                    
+                    
+                      
+                    
+                    <span class="site-state-item-count">1</span>
+                    <span class="site-state-item-name">分类</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  <a href="/tags/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">2</span>
+                    <span class="site-state-item-name">标签</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </div>
+
+      
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-zabbix-的Regular-expressions"><span class="nav-number">1.</span> <span class="nav-text">1.zabbix 的Regular expressions</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-监控实例"><span class="nav-number">2.</span> <span class="nav-text">2.监控实例</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#2-1-单监控key"><span class="nav-number">2.1.</span> <span class="nav-text">2.1 单监控key</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#实例1-监控mysql是否在线"><span class="nav-number">2.1.1.</span> <span class="nav-text">实例1 监控mysql是否在线</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-1-1-新建监控模板"><span class="nav-number">2.1.2.</span> <span class="nav-text">2.1.1 新建监控模板</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-1-2-新建应用-aapplication"><span class="nav-number">2.1.3.</span> <span class="nav-text">2.1.2 新建应用(aapplication)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-1-3-添加监控脚本"><span class="nav-number">2.1.4.</span> <span class="nav-text">2.1.3 添加监控脚本</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-1-4-配置zabbix自动发现"><span class="nav-number">2.1.5.</span> <span class="nav-text">2.1.4 配置zabbix自动发现</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#在zabbix面板新建两个discovery-rules"><span class="nav-number">2.1.5.1.</span> <span class="nav-text">在zabbix面板新建两个discovery rules</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#配置discovery-rule，这里Filters暂时不使用"><span class="nav-number">2.1.5.2.</span> <span class="nav-text">配置discovery rule，这里Filters暂时不使用</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#为模板添加items"><span class="nav-number">2.1.5.3.</span> <span class="nav-text">为模板添加items</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#配置items"><span class="nav-number">2.1.5.4.</span> <span class="nav-text">配置items</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#创建报警触发器"><span class="nav-number">2.1.5.5.</span> <span class="nav-text">创建报警触发器</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#配置触发器"><span class="nav-number">2.1.5.6.</span> <span class="nav-text">配置触发器</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#创建监控图表"><span class="nav-number">2.1.5.7.</span> <span class="nav-text">创建监控图表</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#配置监控图表"><span class="nav-number">2.1.5.8.</span> <span class="nav-text">配置监控图表</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-1-5-监控测试"><span class="nav-number">2.1.6.</span> <span class="nav-text">2.1.5 监控测试</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#测试告警可以关闭监控mysql进行。"><span class="nav-number">2.1.6.1.</span> <span class="nav-text">测试告警可以关闭监控mysql进行。</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#实例2-监控mysql主从-一从多主-关系是否正常"><span class="nav-number">2.1.7.</span> <span class="nav-text">实例2 监控mysql主从(一从多主)关系是否正常</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#参照2-1的配置就行了，就是修改一下key的名称即可。"><span class="nav-number">2.1.7.1.</span> <span class="nav-text">参照2.1的配置就行了，就是修改一下key的名称即可。</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-2-多监控key"><span class="nav-number">2.2.</span> <span class="nav-text">2.2 多监控key</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#实例1-监控mysql主从-一从多主-延时"><span class="nav-number">2.2.1.</span> <span class="nav-text">实例1 监控mysql主从(一从多主)延时</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-2-1-监控脚本返回"><span class="nav-number">2.2.2.</span> <span class="nav-text">2.2.1 监控脚本返回</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-2-2-配置regular-expression"><span class="nav-number">2.2.3.</span> <span class="nav-text">2.2.2 配置regular expression</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-2-3-配置zabbix-自动发现"><span class="nav-number">2.2.4.</span> <span class="nav-text">2.2.3 配置zabbix 自动发现</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-2-4-监控测试"><span class="nav-number">2.2.5.</span> <span class="nav-text">2.2.4 监控测试</span></a></li></ol></li></ol></li></ol></div>
+            
+
+          </div>
+        </div>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
         
       </div>
-      <footer id="footer">
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Cian</span>
+
   
-  <div class="outer">
-    <div id="footer-info" class="inner">
-      &copy; 2018 John Doe<br>
-      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
-    </div>
-  </div>
-</footer>
-    </div>
-    <nav id="mobile-nav">
+
   
-    <a href="/" class="mobile-nav-link">Home</a>
-  
-    <a href="/archives" class="mobile-nav-link">Archives</a>
-  
-</nav>
+</div>
+
+
+  <div class="powered-by">由 <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v3.8.0</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> v6.6.0</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
     
 
-<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+    
 
+    
 
-  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
-  <script src="/fancybox/jquery.fancybox.pack.js"></script>
-
-
-<script src="/js/script.js"></script>
-
-
-
+    
   </div>
+
+  
+
+<script>
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+
+  
+
+
+  <script src="/js/src/utils.js?v=6.6.0"></script>
+
+  <script src="/js/src/motion.js?v=6.6.0"></script>
+
+
+
+  
+  
+
+
+  <script src="/js/src/affix.js?v=6.6.0"></script>
+
+  <script src="/js/src/schemes/pisces.js?v=6.6.0"></script>
+
+
+
+  
+  <script src="/js/src/scrollspy.js?v=6.6.0"></script>
+<script src="/js/src/post-details.js?v=6.6.0"></script>
+
+
+
+  
+
+
+  <script src="/js/src/bootstrap.js?v=6.6.0"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
 </body>
 </html>
