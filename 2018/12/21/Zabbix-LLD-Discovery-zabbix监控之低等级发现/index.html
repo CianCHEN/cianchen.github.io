@@ -138,7 +138,7 @@
 <meta property="og:image" content="http://192.168.36.183:6888/2018/12/21/Zabbix-LLD-Discovery-zabbix监控之低等级发现/24.png">
 <meta property="og:image" content="http://192.168.36.183:6888/2018/12/21/Zabbix-LLD-Discovery-zabbix监控之低等级发现/25.png">
 <meta property="og:image" content="http://192.168.36.183:6888/2018/12/21/Zabbix-LLD-Discovery-zabbix监控之低等级发现/26.png">
-<meta property="og:updated_time" content="2018-12-24T03:26:40.785Z">
+<meta property="og:updated_time" content="2018-12-24T03:32:43.050Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Zabbix LLD Discovery - zabbix监控之低等级发现">
 <meta name="twitter:description" content="zabbix 的Regular expressions以下是一个zabbix文件系统自动发现的正则表达式，匹配到的话返回true：下面看一下文件系统自动发现的具体配置：在zabbix server通过zabbix_get获取一下文件系统发现的全部key：">
@@ -439,7 +439,7 @@
                 
                   <span class="post-meta-item-text">更新于</span>
                 
-                <time title="修改时间：2018-12-24 11:26:40" itemprop="dateModified" datetime="2018-12-24T11:26:40+08:00">2018-12-24</time>
+                <time title="修改时间：2018-12-24 11:32:43" itemprop="dateModified" datetime="2018-12-24T11:32:43+08:00">2018-12-24</time>
               
             
           </span>
@@ -503,7 +503,7 @@
 <h5 id="创建监控图表"><a href="#创建监控图表" class="headerlink" title="创建监控图表"></a>创建监控图表</h5><p><img src="/2018/12/21/Zabbix-LLD-Discovery-zabbix监控之低等级发现/17.png" alt="new graph"> </p>
 <h5 id="配置监控图表"><a href="#配置监控图表" class="headerlink" title="配置监控图表"></a>配置监控图表</h5><p><img src="/2018/12/21/Zabbix-LLD-Discovery-zabbix监控之低等级发现/18.png" alt="confiugre graph"><br>以上就完成一个lld 自动发现模板的配置了。</p>
 <h4 id="监控测试"><a href="#监控测试" class="headerlink" title="监控测试"></a>监控测试</h4><p>进入到套用此模板的服务器，查看自动发现item是否已经正常加入监控。我们过滤一下mysql_alived这个application，可以看到监控项正常加入<br><img src="/2018/12/21/Zabbix-LLD-Discovery-zabbix监控之低等级发现/19.png" alt="items"></p>
-<h5 id="测试告警可以关闭监控mysql进行。"><a href="#测试告警可以关闭监控mysql进行。" class="headerlink" title="测试告警可以关闭监控mysql进行。"></a>测试告警可以关闭监控mysql进行。</h5><h4 id="实例2-监控mysql主从-一从多主-关系是否正常"><a href="#实例2-监控mysql主从-一从多主-关系是否正常" class="headerlink" title="实例2 监控mysql主从(一从多主)关系是否正常"></a>实例2 监控mysql主从(一从多主)关系是否正常</h4><h5 id="参照2-1的配置就行了，就是修改一下key的名称即可。"><a href="#参照2-1的配置就行了，就是修改一下key的名称即可。" class="headerlink" title="参照2.1的配置就行了，就是修改一下key的名称即可。"></a>参照2.1的配置就行了，就是修改一下key的名称即可。</h5><h3 id="多监控key"><a href="#多监控key" class="headerlink" title="多监控key"></a>多监控key</h3><h4 id="实例1-监控mysql主从-一从多主-延时"><a href="#实例1-监控mysql主从-一从多主-延时" class="headerlink" title="实例1 监控mysql主从(一从多主)延时"></a>实例1 监控mysql主从(一从多主)延时</h4><h4 id="监控脚本返回"><a href="#监控脚本返回" class="headerlink" title="监控脚本返回"></a>监控脚本返回</h4><p>这个的步骤其实跟上边也是差不多的，先来看看监控返回格式<br><img src="/2018/12/21/Zabbix-LLD-Discovery-zabbix监控之低等级发现/20.png" alt="json return"><br>这里其实就跟一开始我们分析的文件系统自动返现那里是类似的。跟上例子不一样的是，这里使用了两个json key作为一个分组，分别是<code>{ #MYSQL_PORT }</code> `{ #CHANNEL_NAME },我们现在要实现的是监控这些端口下所有channel的mysql主从同步的 Second_behind_master参数，所以我们必须先得到所有的mysql port 和 每个port 下对应的channel名称才能得到Second_behind_master的值。</p>
+<h5 id="测试告警可以关闭监控mysql进行。"><a href="#测试告警可以关闭监控mysql进行。" class="headerlink" title="测试告警可以关闭监控mysql进行。"></a>测试告警可以关闭监控mysql进行。</h5><h4 id="实例2-监控mysql主从-一从多主-关系是否正常"><a href="#实例2-监控mysql主从-一从多主-关系是否正常" class="headerlink" title="实例2 监控mysql主从(一从多主)关系是否正常"></a>实例2 监控mysql主从(一从多主)关系是否正常</h4><h5 id="参照2-1的配置就行了，就是修改一下key的名称即可。"><a href="#参照2-1的配置就行了，就是修改一下key的名称即可。" class="headerlink" title="参照2.1的配置就行了，就是修改一下key的名称即可。"></a>参照2.1的配置就行了，就是修改一下key的名称即可。</h5><h3 id="多监控key"><a href="#多监控key" class="headerlink" title="多监控key"></a>多监控key</h3><h4 id="实例1-监控mysql主从-一从多主-延时"><a href="#实例1-监控mysql主从-一从多主-延时" class="headerlink" title="实例1 监控mysql主从(一从多主)延时"></a>实例1 监控mysql主从(一从多主)延时</h4><h4 id="监控脚本返回"><a href="#监控脚本返回" class="headerlink" title="监控脚本返回"></a>监控脚本返回</h4><p>这个的步骤其实跟上边也是差不多的，先来看看监控返回格式<br><img src="/2018/12/21/Zabbix-LLD-Discovery-zabbix监控之低等级发现/20.png" alt="json return"><br>这里其实就跟一开始我们分析的文件系统自动返现那里是类似的。跟上例子不一样的是，这里使用了两个json key作为一个分组，分别是<code>{ #MYSQL_PORT }</code> <code>{ #CHANNEL_NAME }</code>,我们现在要实现的是监控这些端口下所有channel的mysql主从同步的 Second_behind_master参数，所以我们必须先得到所有的mysql port 和 每个port 下对应的channel名称才能得到Second_behind_master的值。</p>
 <p>这里mysql.behind 也是自定义的监控key，在zabbix_agentd.conf进行自定义添加即可。</p>
 <h4 id="配置regular-expression"><a href="#配置regular-expression" class="headerlink" title="配置regular expression"></a>配置regular expression</h4><p>新建一个regular expression，这里用途是匹配一从多主的channel_name,等下会用到<br><img src="/2018/12/21/Zabbix-LLD-Discovery-zabbix监控之低等级发现/21.png" alt="reg expression"></p>
 <h4 id="配置zabbix-自动发现"><a href="#配置zabbix-自动发现" class="headerlink" title="配置zabbix 自动发现"></a>配置zabbix 自动发现</h4><p>新建一个模板，新建application，新建discovery rule<br><img src="/2018/12/21/Zabbix-LLD-Discovery-zabbix监控之低等级发现/22.png" alt="reg expression"><br>这里filters使用上边刚刚添加的regular expression<br><img src="/2018/12/21/Zabbix-LLD-Discovery-zabbix监控之低等级发现/23.png" alt="reg expression"><br>新建items<br><img src="/2018/12/21/Zabbix-LLD-Discovery-zabbix监控之低等级发现/24.png" alt="new items"><br>这里<code>{ #MYSQL_PORT }</code> 和 <code>{ #CHANNEL_NAME }</code> 的使用其实就很明确了，你得事先让zabbix知道他们分别代指什么东西，之后zabbix就能将他们作为数据参数来使用了，这就是为什么一开始就要先获取到这两个key的全部数据。</p>
