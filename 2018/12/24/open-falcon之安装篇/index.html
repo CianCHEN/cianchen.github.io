@@ -104,13 +104,13 @@
 
 
 
-  <meta name="description" content="小米开源监控软件 - open-falcon 安装篇 open-falcon官网地址：http://open-falcon.org/ 相关的文档地址(v2.0)：https://book.open-falcon.org/zh_0_2/intro/ 官网的架构示意图：  这里尽量以我的理解来说一下这个架构图每个组件的作用(大部分来自官网)：  falcon-agent是部署在每一台被监控的主机上的，">
+  <meta name="description" content="小米开源监控软件 - open-falcon 安装篇 open-falcon官网地址：http://open-falcon.org/ 相关的文档地址(v2.0)：https://book.open-falcon.org/zh_0_2/intro/ 官网的架构示意图 这里尽量以我的理解来说一下这个架构图每个组件的作用(大部分来自官网)：  falcon-agent是部署在每一台被监控的主机上的，主要">
 <meta name="keywords" content="open-falcon">
 <meta property="og:type" content="article">
 <meta property="og:title" content="open-falcon之安装篇">
 <meta property="og:url" content="http://192.168.36.183:6888/2018/12/24/open-falcon之安装篇/index.html">
 <meta property="og:site_name" content="CianCHEN">
-<meta property="og:description" content="小米开源监控软件 - open-falcon 安装篇 open-falcon官网地址：http://open-falcon.org/ 相关的文档地址(v2.0)：https://book.open-falcon.org/zh_0_2/intro/ 官网的架构示意图：  这里尽量以我的理解来说一下这个架构图每个组件的作用(大部分来自官网)：  falcon-agent是部署在每一台被监控的主机上的，">
+<meta property="og:description" content="小米开源监控软件 - open-falcon 安装篇 open-falcon官网地址：http://open-falcon.org/ 相关的文档地址(v2.0)：https://book.open-falcon.org/zh_0_2/intro/ 官网的架构示意图 这里尽量以我的理解来说一下这个架构图每个组件的作用(大部分来自官网)：  falcon-agent是部署在每一台被监控的主机上的，主要">
 <meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="http://192.168.36.183:6888/2018/12/24/open-falcon之安装篇/架构.jpg">
 <meta property="og:image" content="http://192.168.36.183:6888/2018/12/24/open-falcon之安装篇/sql.jpg">
@@ -123,10 +123,10 @@
 <meta property="og:image" content="http://192.168.36.183:6888/2018/12/24/open-falcon之安装篇/dashboard.jpg">
 <meta property="og:image" content="http://192.168.36.183:6888/2018/12/24/open-falcon之安装篇/endpoint.jpg">
 <meta property="og:image" content="http://192.168.36.183:6888/2018/12/24/open-falcon之安装篇/graph.jpg">
-<meta property="og:updated_time" content="2018-12-24T09:37:07.622Z">
+<meta property="og:updated_time" content="2018-12-24T09:59:15.418Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="open-falcon之安装篇">
-<meta name="twitter:description" content="小米开源监控软件 - open-falcon 安装篇 open-falcon官网地址：http://open-falcon.org/ 相关的文档地址(v2.0)：https://book.open-falcon.org/zh_0_2/intro/ 官网的架构示意图：  这里尽量以我的理解来说一下这个架构图每个组件的作用(大部分来自官网)：  falcon-agent是部署在每一台被监控的主机上的，">
+<meta name="twitter:description" content="小米开源监控软件 - open-falcon 安装篇 open-falcon官网地址：http://open-falcon.org/ 相关的文档地址(v2.0)：https://book.open-falcon.org/zh_0_2/intro/ 官网的架构示意图 这里尽量以我的理解来说一下这个架构图每个组件的作用(大部分来自官网)：  falcon-agent是部署在每一台被监控的主机上的，主要">
 <meta name="twitter:image" content="http://192.168.36.183:6888/2018/12/24/open-falcon之安装篇/架构.jpg">
 
 
@@ -407,7 +407,7 @@
                 
               
 
-              <time title="创建时间：2018-12-24 16:31:08 / 修改时间：17:37:07" itemprop="dateCreated datePublished" datetime="2018-12-24T16:31:08+08:00">2018-12-24</time>
+              <time title="创建时间：2018-12-24 16:31:08 / 修改时间：17:59:15" itemprop="dateCreated datePublished" datetime="2018-12-24T16:31:08+08:00">2018-12-24</time>
             
 
             
@@ -466,8 +466,7 @@
         <p>小米开源监控软件 - open-falcon 安装篇</p>
 <p>open-falcon官网地址：<a href="http://open-falcon.org/" target="_blank" rel="noopener">http://open-falcon.org/</a></p>
 <p>相关的文档地址(v2.0)：<a href="https://book.open-falcon.org/zh_0_2/intro/" target="_blank" rel="noopener">https://book.open-falcon.org/zh_0_2/intro/</a></p>
-<p>官网的架构示意图：</p>
-<p><img src="/2018/12/24/open-falcon之安装篇/架构.jpg" alt="架构"></p>
+<h3 id="官网的架构示意图"><a href="#官网的架构示意图" class="headerlink" title="官网的架构示意图"></a>官网的架构示意图</h3><p><img src="/2018/12/24/open-falcon之安装篇/架构.jpg" alt="架构"></p>
 <p>这里尽量以我的理解来说一下这个架构图每个组件的作用(大部分来自官网)：</p>
 <ol>
 <li>falcon-agent是部署在每一台被监控的主机上的，主要作用是负责数据采集和数据上报，另外它还有一个proxy-gateway的接口提供给用户使用，这样用户就可以自定义一些数据，然后上报给agent，agent再上报到transfer</li>
@@ -483,34 +482,30 @@
 </li>
 </ol>
 <p><a href="https://book.open-falcon.org/zh_0_2/practice/deploy.html" target="_blank" rel="noopener">https://book.open-falcon.org/zh_0_2/practice/deploy.html</a></p>
-<p>这里我机器的原因我只会进行单机的安装，有条件的可以实现以下集群安装：</p>
-<p>安装环境：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">OS：CentOS Linux release 7.3.1611 (Core)</span><br><span class="line">go version： go1.9.4 linux/amd64</span><br><span class="line">git version： 1.8.3.1</span><br><span class="line">redis： 3.2.10</span><br><span class="line">mysql：5.7.18</span><br></pre></td></tr></table></figure>
-<p>这里我的mysql是源码安装以外，其它都使用yum安装方式。</p>
-<p><code>yum install  git  golang  redis</code></p>
-<p>基础环境配置之后，设置一下GOPATH环境变量<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">vim ~/.bashrc</span><br><span class="line">export GOPATH=/opt/go</span><br><span class="line">source  ~/.bashrc</span><br></pre></td></tr></table></figure></p>
+<h3 id="编译安装后端"><a href="#编译安装后端" class="headerlink" title="编译安装后端"></a>编译安装后端</h3><h4 id="这里我机器的原因我只会进行单机的安装，有条件的可以实现以下集群安装："><a href="#这里我机器的原因我只会进行单机的安装，有条件的可以实现以下集群安装：" class="headerlink" title="这里我机器的原因我只会进行单机的安装，有条件的可以实现以下集群安装："></a>这里我机器的原因我只会进行单机的安装，有条件的可以实现以下集群安装：</h4><h4 id="安装环境："><a href="#安装环境：" class="headerlink" title="安装环境："></a>安装环境：</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">OS：CentOS Linux release 7.3.1611 (Core)</span><br><span class="line">go version： go1.9.4 linux/amd64</span><br><span class="line">git version： 1.8.3.1</span><br><span class="line">redis： 3.2.10</span><br><span class="line">mysql：5.7.18</span><br></pre></td></tr></table></figure>
+<h4 id="这里我的mysql是源码安装以外，其它都使用yum安装方式。"><a href="#这里我的mysql是源码安装以外，其它都使用yum安装方式。" class="headerlink" title="这里我的mysql是源码安装以外，其它都使用yum安装方式。"></a>这里我的mysql是源码安装以外，其它都使用yum安装方式。</h4><p><code>yum install  git  golang  redis</code></p>
+<h4 id="基础环境配置之后，设置一下GOPATH环境变量"><a href="#基础环境配置之后，设置一下GOPATH环境变量" class="headerlink" title="基础环境配置之后，设置一下GOPATH环境变量"></a>基础环境配置之后，设置一下GOPATH环境变量</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">vim ~/.bashrc</span><br><span class="line">export GOPATH=/opt/go</span><br><span class="line">source  ~/.bashrc</span><br></pre></td></tr></table></figure>
 <p>#这个是自定义的，可以理解成你放go代码的地方，通常地下还需要有src(放源码)，pkg，bin 三个目录，而这个路径又叫做workspace</p>
 <p>#这里务必写对，除了GOPATH是你自定义的，其他请按照这个来，不然编译的时候会出错</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">mkdir -p $GOPATH/src/github.com/open-falcon</span><br><span class="line">cd $GOPATH/src/github.com/open-falcon</span><br><span class="line">git clone https://github.com/open-falcon/falcon-plus.git</span><br></pre></td></tr></table></figure>
-<p>创建需要的数据库<br>先来看看需要导入的5个sql文件<br><img src="/2018/12/24/open-falcon之安装篇/sql.jpg" alt="sql"><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">cd $GOPATH/src/github.com/open-falcon/falcon-plus/scripts/mysql/db_schema</span><br><span class="line">for i in \`ls ./\` ;</span><br><span class="line">​    do mysql -uroot -P4400 -h127.0.0.1 -p123456 &lt; $i;</span><br><span class="line">done</span><br></pre></td></tr></table></figure></p>
-<p>创建编译后的文件地址<br><code>mkdir /opt/open-falcon</code></p>
-<p>编译open-falcon后端服务</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">cd $GOPATH/src/github.com/open-falcon/falcon-plus/</span><br><span class="line">make all</span><br><span class="line">make agent</span><br><span class="line">make pack</span><br></pre></td></tr></table></figure>
+<h4 id="创建需要的数据库"><a href="#创建需要的数据库" class="headerlink" title="创建需要的数据库"></a>创建需要的数据库</h4><p>先来看看需要导入的5个sql文件<br><img src="/2018/12/24/open-falcon之安装篇/sql.jpg" alt="sql"><br>导入到mysql数据库<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">cd $GOPATH/src/github.com/open-falcon/falcon-plus/scripts/mysql/db_schema</span><br><span class="line">for i in \`ls ./\` ;</span><br><span class="line">​    do mysql -uroot -P4400 -h127.0.0.1 -p123456 &lt; $i;</span><br><span class="line">done</span><br></pre></td></tr></table></figure></p>
+<h4 id="创建编译后的文件地址"><a href="#创建编译后的文件地址" class="headerlink" title="创建编译后的文件地址"></a>创建编译后的文件地址</h4><p><code>mkdir /opt/open-falcon</code></p>
+<h4 id="编译open-falcon后端服务"><a href="#编译open-falcon后端服务" class="headerlink" title="编译open-falcon后端服务"></a>编译open-falcon后端服务</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">cd $GOPATH/src/github.com/open-falcon/falcon-plus/</span><br><span class="line">make all</span><br><span class="line">make agent</span><br><span class="line">make pack</span><br></pre></td></tr></table></figure>
 <p>执行成功出现下边这个压缩包：<br><img src="/2018/12/24/open-falcon之安装篇/openfalcontar.png" alt="package"></p>
 <p>open-falcon-v0.2.1.tar.gz</p>
 <p><code>tar -xf open-falcon-v0.2.1.tar.gz -C /opt/open-falcon/</code></p>
-<p>修改mysql的端口和密码，否则启动失败<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">cd /opt/open-falcon</span><br><span class="line">grep -Ilr 3306  ./ | xargs -n1 -- sed -i &apos;s/root:/root:123456/g&apos;</span><br><span class="line">grep -Ilr 3306  ./ | xargs -n1 -- sed -i &apos;s/3306/4400/g&apos;</span><br></pre></td></tr></table></figure></p>
-<p>启动后端：<br><code>./open-falcon start</code><br>观察一下成功输出<br><img src="/2018/12/24/open-falcon之安装篇/start.jpg" alt="start log"></p>
-<p>检查后端：<br><code>./open-falcon check</code><br>观察一下check输出<br><img src="/2018/12/24/open-falcon之安装篇/check.jpg" alt="check log"></p>
-<p>安装前端:<br>选择性安装依赖：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">yum install -y python-virtualenv python-devel openldap-devel mysql-devel</span><br><span class="line">yum groupinstall &quot;Development tools&quot;</span><br></pre></td></tr></table></figure></p>
-<p>安装dashboard<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">cd /opt/open-falcon</span><br><span class="line">git clone https://github.com/open-falcon/dashboard.git</span><br></pre></td></tr></table></figure></p>
-<p>创建一个虚拟python环境env<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">cd dashboard</span><br><span class="line">virtualenv ./env</span><br></pre></td></tr></table></figure></p>
-<p>使用虚拟环境安装python依赖，独立于宿主机<br><code>./env/bin/pip install -r pip_requirements.txt -i https://pypi.douban.com/simple</code><br>修改一下rrd的配置文件，主要是mysql的配置，其他按需修改<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">vim rrd/config.py</span><br><span class="line">PORTAL_DB_HOST = os.environ.get(&quot;PORTAL_DB_HOST&quot;,&quot;127.0.0.1&quot;)</span><br><span class="line">PORTAL_DB_PORT = int(os.environ.get(&quot;PORTAL_DB_PORT&quot;,3306))</span><br><span class="line">PORTAL_DB_USER = os.environ.get(&quot;PORTAL_DB_USER&quot;,&quot;root&quot;)</span><br><span class="line">PORTAL_DB_PASS = os.environ.get(&quot;PORTAL_DB_PASS&quot;,&quot;test123&quot;)</span><br><span class="line"></span><br><span class="line">API_ADDR = os.environ.get(&quot;API_ADDR&quot;,&quot;http://192.168.36.183:8080/api/v1&quot;)   //这个修改成外网的ip</span><br></pre></td></tr></table></figure></p>
-<p>启动前端：<br><code>./env/bin/python wsgi.py  #这是以开发者模式启动，将会阻塞终端</code><br>或者<br><code>./control start  #以生产环境启动，另外./control stop就是停止dashboard</code></p>
-<p>查看日志<br><code>./control tail   #查看日志</code></p>
+<h4 id="修改mysql的端口和密码，否则启动失败"><a href="#修改mysql的端口和密码，否则启动失败" class="headerlink" title="修改mysql的端口和密码，否则启动失败"></a>修改mysql的端口和密码，否则启动失败</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">cd /opt/open-falcon</span><br><span class="line">grep -Ilr 3306  ./ | xargs -n1 -- sed -i &apos;s/root:/root:123456/g&apos;</span><br><span class="line">grep -Ilr 3306  ./ | xargs -n1 -- sed -i &apos;s/3306/4400/g&apos;</span><br></pre></td></tr></table></figure>
+<h4 id="启动后端："><a href="#启动后端：" class="headerlink" title="启动后端："></a>启动后端：</h4><p><code>./open-falcon start</code><br>观察一下成功输出<br><img src="/2018/12/24/open-falcon之安装篇/start.jpg" alt="start log"></p>
+<h4 id="检查后端："><a href="#检查后端：" class="headerlink" title="检查后端："></a>检查后端：</h4><p><code>./open-falcon check</code><br>观察一下check输出<br><img src="/2018/12/24/open-falcon之安装篇/check.jpg" alt="check log"></p>
+<h3 id="安装前端"><a href="#安装前端" class="headerlink" title="安装前端"></a>安装前端</h3><h4 id="选择性安装依赖："><a href="#选择性安装依赖：" class="headerlink" title="选择性安装依赖："></a>选择性安装依赖：</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">yum install -y python-virtualenv python-devel openldap-devel mysql-devel</span><br><span class="line">yum groupinstall &quot;Development tools&quot;</span><br></pre></td></tr></table></figure>
+<h4 id="安装dashboard"><a href="#安装dashboard" class="headerlink" title="安装dashboard"></a>安装dashboard</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">cd /opt/open-falcon</span><br><span class="line">git clone https://github.com/open-falcon/dashboard.git</span><br></pre></td></tr></table></figure>
+<h4 id="创建一个虚拟python环境env"><a href="#创建一个虚拟python环境env" class="headerlink" title="创建一个虚拟python环境env"></a>创建一个虚拟python环境env</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">cd dashboard</span><br><span class="line">virtualenv ./env</span><br></pre></td></tr></table></figure>
+<h4 id="使用虚拟环境安装python依赖，独立于宿主机"><a href="#使用虚拟环境安装python依赖，独立于宿主机" class="headerlink" title="使用虚拟环境安装python依赖，独立于宿主机"></a>使用虚拟环境安装python依赖，独立于宿主机</h4><p><code>./env/bin/pip install -r pip_requirements.txt -i https://pypi.douban.com/simple</code></p>
+<h4 id="修改一下rrd的配置文件，主要是mysql的配置，其他按需修改"><a href="#修改一下rrd的配置文件，主要是mysql的配置，其他按需修改" class="headerlink" title="修改一下rrd的配置文件，主要是mysql的配置，其他按需修改"></a>修改一下rrd的配置文件，主要是mysql的配置，其他按需修改</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">vim rrd/config.py</span><br><span class="line">PORTAL_DB_HOST = os.environ.get(&quot;PORTAL_DB_HOST&quot;,&quot;127.0.0.1&quot;)</span><br><span class="line">PORTAL_DB_PORT = int(os.environ.get(&quot;PORTAL_DB_PORT&quot;,3306))</span><br><span class="line">PORTAL_DB_USER = os.environ.get(&quot;PORTAL_DB_USER&quot;,&quot;root&quot;)</span><br><span class="line">PORTAL_DB_PASS = os.environ.get(&quot;PORTAL_DB_PASS&quot;,&quot;test123&quot;)</span><br><span class="line"></span><br><span class="line">API_ADDR = os.environ.get(&quot;API_ADDR&quot;,&quot;http://192.168.36.183:8080/api/v1&quot;)   //这个修改成外网的ip</span><br></pre></td></tr></table></figure>
+<h4 id="启动前端："><a href="#启动前端：" class="headerlink" title="启动前端："></a>启动前端：</h4><p><code>./env/bin/python wsgi.py  #这是以开发者模式启动，将会阻塞终端</code><br>或者<br><code>./control start  #以生产环境启动，另外./control stop就是停止dashboard</code></p>
+<h4 id="查看日志"><a href="#查看日志" class="headerlink" title="查看日志"></a>查看日志</h4><p><code>./control tail   #查看日志</code></p>
 <p>其他各相关的日志在各自模块下的log文件夹下</p>
-<p>我们看看使用的相关端口</p>
-<pre><code>[root@int-test-1 dashboard]# netstat  -tunpl  | grep fa
+<h4 id="使用的相关端口"><a href="#使用的相关端口" class="headerlink" title="使用的相关端口"></a>使用的相关端口</h4><pre><code>[root@int-test-1 dashboard]# netstat  -tunpl  | grep fa
 tcp6       0      0 :::6055                 :::*                    LISTEN      7166/falcon-aggrega
 tcp6       0      0 :::6090                 :::*                    LISTEN      7158/falcon-nodata
 tcp6       0      0 :::6060                 :::*                    LISTEN      7552/falcon-transfe 
@@ -531,7 +526,13 @@ tcp6       0      0 :::6081                 :::*                    LISTEN      
 tcp6       0      0 :::1988                 :::*                    LISTEN      7176/falcon-agent 
 tcp        0      0 0.0.0.0:8081            0.0.0.0:*               LISTEN      10660/python
 </code></pre><p>8081端口是dashboard的端口，访问前端：<br><a href="http://192.168.36.183:8081/">http://192.168.36.183:8081/</a> </p>
-<p>登录之后需要先注册一个账号<br><img src="/2018/12/24/open-falcon之安装篇/signup.jpg" alt="sign up"><br>填写相关的信息，注意邮箱地址，告警的时候会使用到<br><img src="/2018/12/24/open-falcon之安装篇/userinfo.jpg" alt="user info"><br>登录之后可以修改用户信息<br><img src="/2018/12/24/open-falcon之安装篇/changeinfo.jpg" alt="change info"><br>查看dashboard<br><img src="/2018/12/24/open-falcon之安装篇/dashboard.jpg" alt="dashboard"><br>查看/过滤 endpoint 和counter<br><img src="/2018/12/24/open-falcon之安装篇/endpoint.jpg" alt="endpoint"><br>查看监控图像<br><img src="/2018/12/24/open-falcon之安装篇/graph.jpg" alt="graph"></p>
+<h3 id="使用dashboard"><a href="#使用dashboard" class="headerlink" title="使用dashboard"></a>使用dashboard</h3><h4 id="登录之后需要先注册一个账号"><a href="#登录之后需要先注册一个账号" class="headerlink" title="登录之后需要先注册一个账号"></a>登录之后需要先注册一个账号</h4><p><img src="/2018/12/24/open-falcon之安装篇/signup.jpg" alt="sign up"></p>
+<h4 id="填写相关的信息，注意邮箱地址，告警的时候会使用到"><a href="#填写相关的信息，注意邮箱地址，告警的时候会使用到" class="headerlink" title="填写相关的信息，注意邮箱地址，告警的时候会使用到"></a>填写相关的信息，注意邮箱地址，告警的时候会使用到</h4><p><img src="/2018/12/24/open-falcon之安装篇/userinfo.jpg" alt="user info"></p>
+<h4 id="登录之后可以修改用户信息"><a href="#登录之后可以修改用户信息" class="headerlink" title="登录之后可以修改用户信息"></a>登录之后可以修改用户信息</h4><p><img src="/2018/12/24/open-falcon之安装篇/changeinfo.jpg" alt="change info"></p>
+<h4 id="查看dashboard"><a href="#查看dashboard" class="headerlink" title="查看dashboard"></a>查看dashboard</h4><p><img src="/2018/12/24/open-falcon之安装篇/dashboard.jpg" alt="dashboard"></p>
+<h4 id="查看-过滤-endpoint-和counter"><a href="#查看-过滤-endpoint-和counter" class="headerlink" title="查看/过滤 endpoint 和counter"></a>查看/过滤 endpoint 和counter</h4><p><img src="/2018/12/24/open-falcon之安装篇/endpoint.jpg" alt="endpoint"></p>
+<h4 id="查看监控图像"><a href="#查看监控图像" class="headerlink" title="查看监控图像"></a>查看监控图像</h4><p><img src="/2018/12/24/open-falcon之安装篇/graph.jpg" alt="graph"></p>
+<p>好了，到这里就可以简单的查看监控的counter和监控图像了，接下来一篇会部署agent到其他节点，部署告警策略。</p>
 
       
     </div>
@@ -621,8 +622,17 @@ tcp        0      0 0.0.0.0:8081            0.0.0.0:*               LISTEN      
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <div class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <div class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
             
@@ -700,6 +710,22 @@ tcp        0      0 0.0.0.0:8081            0.0.0.0:*               LISTEN      
         </div>
       </div>
 
+      
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#官网的架构示意图"><span class="nav-number">1.</span> <span class="nav-text">官网的架构示意图</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#编译安装后端"><span class="nav-number">2.</span> <span class="nav-text">编译安装后端</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#这里我机器的原因我只会进行单机的安装，有条件的可以实现以下集群安装："><span class="nav-number">2.1.</span> <span class="nav-text">这里我机器的原因我只会进行单机的安装，有条件的可以实现以下集群安装：</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#安装环境："><span class="nav-number">2.2.</span> <span class="nav-text">安装环境：</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#这里我的mysql是源码安装以外，其它都使用yum安装方式。"><span class="nav-number">2.3.</span> <span class="nav-text">这里我的mysql是源码安装以外，其它都使用yum安装方式。</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#基础环境配置之后，设置一下GOPATH环境变量"><span class="nav-number">2.4.</span> <span class="nav-text">基础环境配置之后，设置一下GOPATH环境变量</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#创建需要的数据库"><span class="nav-number">2.5.</span> <span class="nav-text">创建需要的数据库</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#创建编译后的文件地址"><span class="nav-number">2.6.</span> <span class="nav-text">创建编译后的文件地址</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#编译open-falcon后端服务"><span class="nav-number">2.7.</span> <span class="nav-text">编译open-falcon后端服务</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#修改mysql的端口和密码，否则启动失败"><span class="nav-number">2.8.</span> <span class="nav-text">修改mysql的端口和密码，否则启动失败</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#启动后端："><span class="nav-number">2.9.</span> <span class="nav-text">启动后端：</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#检查后端："><span class="nav-number">2.10.</span> <span class="nav-text">检查后端：</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#安装前端"><span class="nav-number">3.</span> <span class="nav-text">安装前端</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#选择性安装依赖："><span class="nav-number">3.1.</span> <span class="nav-text">选择性安装依赖：</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#安装dashboard"><span class="nav-number">3.2.</span> <span class="nav-text">安装dashboard</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#创建一个虚拟python环境env"><span class="nav-number">3.3.</span> <span class="nav-text">创建一个虚拟python环境env</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#使用虚拟环境安装python依赖，独立于宿主机"><span class="nav-number">3.4.</span> <span class="nav-text">使用虚拟环境安装python依赖，独立于宿主机</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#修改一下rrd的配置文件，主要是mysql的配置，其他按需修改"><span class="nav-number">3.5.</span> <span class="nav-text">修改一下rrd的配置文件，主要是mysql的配置，其他按需修改</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#启动前端："><span class="nav-number">3.6.</span> <span class="nav-text">启动前端：</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#查看日志"><span class="nav-number">3.7.</span> <span class="nav-text">查看日志</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#使用的相关端口"><span class="nav-number">3.8.</span> <span class="nav-text">使用的相关端口</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#使用dashboard"><span class="nav-number">4.</span> <span class="nav-text">使用dashboard</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#登录之后需要先注册一个账号"><span class="nav-number">4.1.</span> <span class="nav-text">登录之后需要先注册一个账号</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#填写相关的信息，注意邮箱地址，告警的时候会使用到"><span class="nav-number">4.2.</span> <span class="nav-text">填写相关的信息，注意邮箱地址，告警的时候会使用到</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#登录之后可以修改用户信息"><span class="nav-number">4.3.</span> <span class="nav-text">登录之后可以修改用户信息</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#查看dashboard"><span class="nav-number">4.4.</span> <span class="nav-text">查看dashboard</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#查看-过滤-endpoint-和counter"><span class="nav-number">4.5.</span> <span class="nav-text">查看/过滤 endpoint 和counter</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#查看监控图像"><span class="nav-number">4.6.</span> <span class="nav-text">查看监控图像</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </div>
+      <!--/noindex-->
       
 
       
