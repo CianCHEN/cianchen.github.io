@@ -1,0 +1,1047 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-CN">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+
+<script>
+    (function () {
+        if ('') {
+            if (prompt('请输入文章密码') !== '') {
+                alert('密码错误！');
+                if (history.length === 1) {
+                    location.replace("http://xxxxxxx.xxx"); // 这里替换成你的首页
+                } else {
+                    history.back();
+                }
+            }
+        }
+    })();
+</script>
+
+
+
+
+
+  
+  
+    
+    
+  <script src="/lib/pace/pace.min.js?v=1.0.2"></script>
+  <link href="/lib/pace/pace-theme-bounce.min.css?v=1.0.2" rel="stylesheet">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=6.6.0" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=6.6.0">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=6.6.0">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=6.6.0">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=6.6.0" color="#222">
+
+
+
+
+
+
+
+
+
+<script id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '6.6.0',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="在上一篇博文中，已经演示了怎样部署一套基础的监控服务端，下面要开始安装agent收集指标信息以及配置告警，实现监控基础环境信息：12server端: 192.168.36.183agent: 192.168.36.17 编译安装agent编译agent客户端agent，我们只需要编译一次即可，以后所有的agent都可以直接使用这个包了。在server端机器进行客户端编译：1234cd /opt/g">
+<meta name="keywords" content="open-falcon">
+<meta property="og:type" content="article">
+<meta property="og:title" content="open-falcon之告警篇">
+<meta property="og:url" content="http://192.168.36.183:6888/2018/12/25/open-falcon之告警篇/index.html">
+<meta property="og:site_name" content="CianCHEN | with code">
+<meta property="og:description" content="在上一篇博文中，已经演示了怎样部署一套基础的监控服务端，下面要开始安装agent收集指标信息以及配置告警，实现监控基础环境信息：12server端: 192.168.36.183agent: 192.168.36.17 编译安装agent编译agent客户端agent，我们只需要编译一次即可，以后所有的agent都可以直接使用这个包了。在server端机器进行客户端编译：1234cd /opt/g">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="http://192.168.36.183:6888/2018/12/25/open-falcon之告警篇/falcon-agent512.jpg">
+<meta property="og:image" content="http://192.168.36.183:6888/2018/12/25/open-falcon之告警篇/agentinfo.jpg">
+<meta property="og:image" content="http://192.168.36.183:6888/2018/12/25/open-falcon之告警篇/introduction.jpg">
+<meta property="og:image" content="http://192.168.36.183:6888/2018/12/25/open-falcon之告警篇/newgroup.jpg">
+<meta property="og:image" content="http://192.168.36.183:6888/2018/12/25/open-falcon之告警篇/hostgroup.jpg">
+<meta property="og:image" content="http://192.168.36.183:6888/2018/12/25/open-falcon之告警篇/hostgroup2.jpg">
+<meta property="og:image" content="http://192.168.36.183:6888/2018/12/25/open-falcon之告警篇/templete.jpg">
+<meta property="og:image" content="http://192.168.36.183:6888/2018/12/25/open-falcon之告警篇/templete2.jpg">
+<meta property="og:image" content="http://192.168.36.183:6888/2018/12/25/open-falcon之告警篇/bindtemple.jpg">
+<meta property="og:image" content="http://192.168.36.183:6888/2018/12/25/open-falcon之告警篇/alarmlog.jpg">
+<meta property="og:image" content="http://192.168.36.183:6888/2018/12/25/open-falcon之告警篇/alarm-list.jpg">
+<meta property="og:image" content="http://192.168.36.183:6888/2018/12/25/open-falcon之告警篇/nodata.jpg">
+<meta property="og:image" content="http://192.168.36.183:6888/2018/12/25/open-falcon之告警篇/nodata1.jpg">
+<meta property="og:image" content="http://192.168.36.183:6888/2018/12/25/open-falcon之告警篇/nodata2.jpg">
+<meta property="og:image" content="http://192.168.36.183:6888/2018/12/25/open-falcon之告警篇/nodata3.jpg">
+<meta property="og:image" content="http://192.168.36.183:6888/2018/12/25/open-falcon之告警篇/nodtemplete.jpg">
+<meta property="og:image" content="http://192.168.36.183:6888/2018/12/25/open-falcon之告警篇/nodatabind.jpg">
+<meta property="og:image" content="http://192.168.36.183:6888/2018/12/25/open-falcon之告警篇/nodata4.jpg">
+<meta property="og:image" content="http://192.168.36.183:6888/2018/12/25/open-falcon之告警篇/alarm-list.jpg">
+<meta property="og:updated_time" content="2018-12-26T05:36:58.756Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="open-falcon之告警篇">
+<meta name="twitter:description" content="在上一篇博文中，已经演示了怎样部署一套基础的监控服务端，下面要开始安装agent收集指标信息以及配置告警，实现监控基础环境信息：12server端: 192.168.36.183agent: 192.168.36.17 编译安装agent编译agent客户端agent，我们只需要编译一次即可，以后所有的agent都可以直接使用这个包了。在server端机器进行客户端编译：1234cd /opt/g">
+<meta name="twitter:image" content="http://192.168.36.183:6888/2018/12/25/open-falcon之告警篇/falcon-agent512.jpg">
+
+
+
+
+
+
+  <link rel="canonical" href="http://192.168.36.183:6888/2018/12/25/open-falcon之告警篇/">
+
+
+
+<script id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>open-falcon之告警篇 | CianCHEN | with code</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+    .use-motion .motion-element,
+    .use-motion .brand,
+    .use-motion .menu-item,
+    .sidebar-inner,
+    .use-motion .post-block,
+    .use-motion .pagination,
+    .use-motion .comments,
+    .use-motion .post-header,
+    .use-motion .post-body,
+    .use-motion .collection-title { opacity: initial; }
+
+    .use-motion .logo,
+    .use-motion .site-title,
+    .use-motion .site-subtitle {
+      opacity: initial;
+      top: initial;
+    }
+
+    .use-motion .logo-line-before i { left: initial; }
+    .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope="" itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">CianCHEN | with code</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+      
+        <p class="site-subtitle">分享我所知</p>
+      
+    
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>首页</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-about">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/about/" rel="section"><i class="menu-item-icon fa fa-fw fa-user"></i> <br>关于</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br>标签</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-categories">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/categories" rel="section"><i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br>分类</a>
+
+  </li>
+
+      
+      
+    </ul>
+  
+
+  
+
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+            
+
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://192.168.36.183:6888/2018/12/25/open-falcon之告警篇/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="CianCHEN">
+      <meta itemprop="description" content="世间纷繁,乱花迷人眼,前路漫漫,勿忘初心~">
+      <meta itemprop="image" content="/img/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="CianCHEN | with code">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">open-falcon之告警篇
+
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2018-12-25 14:38:04" itemprop="dateCreated datePublished" datetime="2018-12-25T14:38:04+08:00">2018-12-25</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2018-12-26 13:36:58" itemprop="dateModified" datetime="2018-12-26T13:36:58+08:00">2018-12-26</time>
+              
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing"><a href="/categories/open-falcon/" itemprop="url" rel="index"><span itemprop="name">open-falcon</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+            <div class="post-symbolscount">
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">本文字数：</span>
+                
+                <span title="本文字数">4.4k</span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">阅读时长 &asymp;</span>
+                
+                <span title="阅读时长">4 分钟</span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>在上一篇博文中，已经演示了怎样部署一套基础的监控服务端，下面要开始安装agent收集指标信息以及配置告警，实现监控<br>基础环境信息：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">server端: 192.168.36.183</span><br><span class="line">agent: 192.168.36.17</span><br></pre></td></tr></table></figure></p>
+<h2 id="编译安装agent"><a href="#编译安装agent" class="headerlink" title="编译安装agent"></a>编译安装agent</h2><h3 id="编译agent"><a href="#编译agent" class="headerlink" title="编译agent"></a>编译agent</h3><p>客户端agent，我们只需要编译一次即可，以后所有的agent都可以直接使用这个包了。<br>在server端机器进行客户端编译：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">cd /opt/go/src/github.com/open-falcon/falcon-plus/modules/agent  #这个目录之前在编译server的时候使用过</span><br><span class="line">go get ./...      #需要主机可以连接外网，通过go get下载相关源码包。</span><br><span class="line">./control build</span><br><span class="line">./control pack   #编译pack 出的包，在其他agent主机上部署时，无需连接外网 ，pack出的包，可以类似的理解为由c源代码编译后得出的二进制文件。</span><br></pre></td></tr></table></figure></p>
+<p>观察一下我们需要的压缩包falcon-agent-5.1.2.tar.gz<br><img src="/2018/12/25/open-falcon之告警篇/falcon-agent512.jpg" alt="falcon-agent"></p>
+<h3 id="部署agent"><a href="#部署agent" class="headerlink" title="部署agent"></a>部署agent</h3><a id="more"></a>
+<p>将包发送到客户机器上，解压<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">mkdir -p /usr/local/open-falcon/agent</span><br><span class="line">cd /usr/local/open-falcon/agent</span><br><span class="line">tar -xf falcon-agent-5.1.2.tar.gz -C ./</span><br></pre></td></tr></table></figure></p>
+<p>修改相关的配置<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">cp cfg.example.json  cfg.json</span><br><span class="line">ip --&gt; agent会自动探测本机ip</span><br><span class="line">hostname  --&gt; 默认通过`hostname`获取,如果你自定义了就会覆盖，这个在dashboard显示的就是endpoint </span><br><span class="line">heartbeat[addr] --&gt; 192.168.36.183</span><br><span class="line">ignore --&gt; 选择你要忽略的监控项</span><br><span class="line"># 这里基本选择默认就行，按需修改，这里注意一下1988端口，这个是会暴露agent机器的所有指标信息，建议改成localhost</span><br><span class="line">&quot;http&quot;: &#123;</span><br><span class="line">        &quot;enabled&quot;: true,</span><br><span class="line">        &quot;listen&quot;: &quot;127.0.0.1:1988&quot;,</span><br><span class="line">        &quot;backdoor&quot;: false</span><br><span class="line">    &#125;,</span><br></pre></td></tr></table></figure></p>
+<p>开启falcon-agent<br><code>./falcon-agent start</code><br>检查falcon-agent是否正常<br><code>./falcon-agent -check</code>  </p>
+<p>通过访问<a href="http://192.168.36.17:1988/" target="_blank" rel="noopener">http://192.168.36.17:1988/</a>   可以看到agent本机的所有详细信息，一般这个不建议监听可访问地址，上边讲过。<br><img src="/2018/12/25/open-falcon之告警篇/agentinfo.jpg" alt="agent info"></p>
+<p>接着登录dashbord就可以看见新加的agentd了<br>相关的监控信息也会出来，按需查看即可</p>
+<h2 id="配置告警："><a href="#配置告警：" class="headerlink" title="配置告警："></a>配置告警：</h2><h3 id="编译安装mail-provider"><a href="#编译安装mail-provider" class="headerlink" title="编译安装mail-provider"></a>编译安装mail-provider</h3><p>这里务必注意了，告警需要alarm插件的调用，而alarm需要redis，所以必须启动redis，否则报警不成功<br>如果之前启动server的时候没有启动redis，那么启动redis之后要记得重启一下server，否则一大堆问题。</p>
+<h4 id="open-falcon实现邮件报警"><a href="#open-falcon实现邮件报警" class="headerlink" title="open-falcon实现邮件报警"></a>open-falcon实现邮件报警</h4><p>$GOPATH –&gt; /opt/go</p>
+<p>在服务端机器执行以下的步骤，告警是放在server端的<br>以下操作在server端执行</p>
+<h5 id="编译mail-provider"><a href="#编译mail-provider" class="headerlink" title="编译mail-provider"></a>编译mail-provider</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">cd $GOPATH/src</span><br><span class="line">cd github.com/open-falcon/</span><br><span class="line"># 下载mail-provider源码</span><br><span class="line">git clone https://github.com/open-falcon/mail-provider.git</span><br><span class="line">cd mail-provider/</span><br><span class="line"># 安装go依赖</span><br><span class="line">go get ./...</span><br><span class="line">./control build</span><br><span class="line">./control pack</span><br></pre></td></tr></table></figure>
+<h5 id="安装mail-provider"><a href="#安装mail-provider" class="headerlink" title="安装mail-provider"></a>安装mail-provider</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">mkdir /opt/open-falcon/mail-provider</span><br><span class="line">tar zxf falcon-mail-provider-0.0.1.tar.gz  -C /opt/open-falcon/mail-provider/</span><br><span class="line">cd /opt/open-falcon/mail-provider/</span><br><span class="line">vim cfg.json   #修改一下配置文件，邮件相关的信息</span><br><span class="line">&#123;</span><br><span class="line">    &quot;debug&quot;: true,</span><br><span class="line">    &quot;http&quot;: &#123;</span><br><span class="line">        &quot;listen&quot;: &quot;0.0.0.0:4000&quot;,</span><br><span class="line">        &quot;token&quot;: &quot;&quot;</span><br><span class="line">    &#125;,</span><br><span class="line">    &quot;smtp&quot;: &#123;</span><br><span class="line">        &quot;addr&quot;: &quot;smtp.163.com:25&quot;,</span><br><span class="line">        &quot;username&quot;: &quot;yourname@163.com&quot;,</span><br><span class="line">        &quot;password&quot;: &quot;password@123&quot;,</span><br><span class="line">        &quot;from&quot;: &quot;yourname163.com&quot;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"># 开启mail-provider</span><br><span class="line">./control start</span><br></pre></td></tr></table></figure>
+<h5 id="测试邮件发送："><a href="#测试邮件发送：" class="headerlink" title="测试邮件发送："></a>测试邮件发送：</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">curl http://127.0.0.1:4000/sender/mail -d &quot;tos=1653581786@qq.com&amp;subject=报警测试&amp;content=这是一封测试邮件&quot;</span><br></pre></td></tr></table></figure>
+<p>发送邮件测试一下    –&gt; 返回success成功</p>
+<p>需要实现告警还需要一个sender组件:<br>上边的邮件发送插件可以用你们自己开发的接口或者三方工具都行，sender使用post方式触发</p>
+<h3 id="编译安装sender"><a href="#编译安装sender" class="headerlink" title="编译安装sender"></a>编译安装sender</h3><h4 id="编译sender"><a href="#编译sender" class="headerlink" title="编译sender:"></a>编译sender:</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">https://github.com/open-falcon-archive/sender</span><br><span class="line">cd $GOPATH/src</span><br><span class="line">cd github.com/open-falcon/</span><br><span class="line">git clone https://github.com/open-falcon/sender.git</span><br><span class="line">cd sender/</span><br><span class="line">go get ./...</span><br><span class="line">./control build</span><br><span class="line">./control pack</span><br></pre></td></tr></table></figure>
+<h4 id="安装sender"><a href="#安装sender" class="headerlink" title="安装sender"></a>安装sender</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">mkdir /opt/open-falcon/sender</span><br><span class="line">tar zxf falcon-sender-0.0.0.tar.gz  -C /opt/open-falcon/sender/</span><br><span class="line">cd /opt/open-falcon/sender/</span><br></pre></td></tr></table></figure>
+<p>修改一下配置文件：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">vim cfg.json </span><br><span class="line">就是将mail那里修改成http://127.0.0.1:4000/sender/mail</span><br></pre></td></tr></table></figure></p>
+<p>启动sender<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">./control start</span><br></pre></td></tr></table></figure></p>
+<p>到这里基础的环境就准备的差不多了，接下来去添加一下监控和告警条件</p>
+<h3 id="配置监控和告警"><a href="#配置监控和告警" class="headerlink" title="配置监控和告警"></a>配置监控和告警</h3><p>需要注意，open-falcon接受告警不是单个用户的，需要定义一个告警接收组，这里区别于zabbix</p>
+<h4 id="用户-组管理"><a href="#用户-组管理" class="headerlink" title="用户/组管理"></a>用户/组管理</h4><p><img src="/2018/12/25/open-falcon之告警篇/introduction.jpg" alt="user manage"></p>
+<h4 id="创建告警组"><a href="#创建告警组" class="headerlink" title="创建告警组"></a>创建告警组</h4><p><img src="/2018/12/25/open-falcon之告警篇/newgroup.jpg" alt="new group"></p>
+<h4 id="创建HostGroup"><a href="#创建HostGroup" class="headerlink" title="创建HostGroup"></a>创建HostGroup</h4><p>hostgroup 的作用很简单，就是我需要跑的程序都是在某些机器上，那我直接把这些机器都加入到同一个hostgroup即可，不用每台机器都添加一个模板了<br><img src="/2018/12/25/open-falcon之告警篇/hostgroup.jpg" alt="new hostgroup"><br><img src="/2018/12/25/open-falcon之告警篇/hostgroup2.jpg" alt="new hostgroup2"></p>
+<h4 id="创建策略模板"><a href="#创建策略模板" class="headerlink" title="创建策略模板"></a>创建策略模板</h4><p>这里all(#1)==0 为告警触发条件，意思是最后一次返回的值等于0就告警<br>具体的参考:<a href="http://book.open-falcon.org/zh_0_2/distributed_install/judge.html" target="_blank" rel="noopener">http://book.open-falcon.org/zh_0_2/distributed_install/judge.html</a><br><img src="/2018/12/25/open-falcon之告警篇/templete.jpg" alt="new templete"><br><img src="/2018/12/25/open-falcon之告警篇/templete2.jpg" alt="new templete2"></p>
+<h4 id="绑定策略模板到HostGroup"><a href="#绑定策略模板到HostGroup" class="headerlink" title="绑定策略模板到HostGroup"></a>绑定策略模板到HostGroup</h4><p><img src="/2018/12/25/open-falcon之告警篇/bindtemple.jpg" alt="bind"></p>
+<p>这样简单的监控就算是可以实现了</p>
+<p>保证server端redis正常的话，关闭一下agentd的6379端口，监听一下日志<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tailf var/app.log  #可以查看下日志可以看到提示邮件已经发出去了</span><br></pre></td></tr></table></figure></p>
+<p><img src="/2018/12/25/open-falcon之告警篇/alarmlog.jpg" alt="alarmlog"></p>
+<p>报警间隔自己修改了，默认5min<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">vim /usr/local/open-falcon/judge/config/cfg.json   #配置文件中配置了连续两个报警之间至少相隔的秒数</span><br><span class="line">&quot;minInterval&quot;: 300,</span><br></pre></td></tr></table></figure></p>
+<h4 id="告警信息"><a href="#告警信息" class="headerlink" title="告警信息"></a>告警信息</h4><p>此时在alarm-dashbord也应该出现告警信息。<br><img src="/2018/12/25/open-falcon之告警篇/alarm-list.jpg" alt="alarm-dashbord"></p>
+<h2 id="配置nodata"><a href="#配置nodata" class="headerlink" title="配置nodata"></a>配置nodata</h2><p><a href="https://github.com/open-falcon-archive/nodata" target="_blank" rel="noopener">https://github.com/open-falcon-archive/nodata</a><br>这个东西就是监控项在没有数据返回的时候，返回一个自定义的值，比如agentd挂了，就没办法上报数据了，这时候nodata就发挥作用了，我自定义一个-1，告诉运维，有agentd挂了。</p>
+<h3 id="新建nodata"><a href="#新建nodata" class="headerlink" title="新建nodata"></a>新建nodata</h3><p><img src="/2018/12/25/open-falcon之告警篇/nodata.jpg" alt="new nodata"></p>
+<h3 id="到dashboard上查看相应的counter"><a href="#到dashboard上查看相应的counter" class="headerlink" title="到dashboard上查看相应的counter"></a>到dashboard上查看相应的counter</h3><p><img src="/2018/12/25/open-falcon之告警篇/nodata1.jpg" alt="nodata1"></p>
+<h3 id="查看一下对应的出图"><a href="#查看一下对应的出图" class="headerlink" title="查看一下对应的出图"></a>查看一下对应的出图</h3><p><img src="/2018/12/25/open-falcon之告警篇/nodata2.jpg" alt="nodata2"><br>　　可以观察到，这个新建的counter由nodata创建是成功的，但是返回的值确实一直是异常的返回，也就是我们自定义的-1<br>　　监控原生的那个agent.alive，他是没有标签的，所以nodata那里配置不应该打上tag.当我们按照官方教程上那么设置tag之后，nodata就会去监控agent.alive/module=nodata,pdl=falcon这一项，这一Counter本来就没有数据，是nodata自己创建的。所以nodata每次都去获取agent.alive/module=nodata,pdl=falcon这项数据，发现为空，返回-1，所以这一项肯定是永远为-1的。</p>
+<h3 id="修改nodata"><a href="#修改nodata" class="headerlink" title="修改nodata"></a>修改nodata</h3><p>接下来到nodata上去掉一开始打的tags<br><img src="/2018/12/25/open-falcon之告警篇/nodata3.jpg" alt="nodata3"></p>
+<h3 id="nodata实现告警"><a href="#nodata实现告警" class="headerlink" title="nodata实现告警"></a>nodata实现告警</h3><p>跟上边告警一样，我新建一个告警模板<br><img src="/2018/12/25/open-falcon之告警篇/nodtemplete.jpg" alt="nodtemplete"><br>然后将模板绑定到hostgroup上<br><img src="/2018/12/25/open-falcon之告警篇/nodatabind.jpg" alt="nodatabind"></p>
+<h4 id="测试nodata告警"><a href="#测试nodata告警" class="headerlink" title="测试nodata告警"></a>测试nodata告警</h4><p>我关闭36.17上的agent进程<br><code>./control stop</code></p>
+<h4 id="dashboard上agent-avlie-counter"><a href="#dashboard上agent-avlie-counter" class="headerlink" title="dashboard上agent.avlie counter"></a>dashboard上agent.avlie counter</h4><p>观察一下出图<br><img src="/2018/12/25/open-falcon之告警篇/nodata4.jpg" alt="nodata4"><br>注意这里是agent.avlie而不再是agent.alive/module=nodata,pdl=falcon了，这个带tags的counter已经不会采集数据，你可以在界面删除它<br>可以看到，agent的值从1到-1，异常，将会触发告警，我这里会有邮件触发。</p>
+<h4 id="告警alarm-dashbord"><a href="#告警alarm-dashbord" class="headerlink" title="告警alarm-dashbord"></a>告警alarm-dashbord</h4><p><img src="/2018/12/25/open-falcon之告警篇/alarm-list.jpg" alt="alarm-list"><br>到这里实现了简单的告警,以及策略的编写和配置了nodata,sender。下一篇将会是简单应用监控。</p>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/open-falcon/" rel="tag"><i class="fa fa-tag"> </i>open-falcon</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/12/24/open-falcon之安装篇/" rel="next" title="open-falcon之安装篇">
+                <i class="fa fa-chevron-left"></i> open-falcon之安装篇
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+    <div class="comments" id="comments">
+      <div id="lv-container" data-id="city" data-uid="MTAyMC80MTgxMy8xODM1OQ=="></div>
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/img/avatar.jpg" alt="CianCHEN">
+            
+              <p class="site-author-name" itemprop="name">CianCHEN</p>
+              <p class="site-description motion-element" itemprop="description">世间纷繁,乱花迷人眼,前路漫漫,勿忘初心~</p>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">3</span>
+                    <span class="site-state-item-name">日志</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  <a href="/categories/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">2</span>
+                    <span class="site-state-item-name">分类</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  <a href="/tags/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">3</span>
+                    <span class="site-state-item-name">标签</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+            <div class="links-of-author motion-element">
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="https://github.com/CianCHEN" title="GitHub &rarr; https://github.com/CianCHEN" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="cianchen:chenzhangan_cian@163.com" title="E-Mail &rarr; cianchen:chenzhangan_cian@163.com" rel="noopener" target="_blank"><i class="fa fa-fw fa-globe"></i>E-Mail</a>
+                </span>
+              
+            </div>
+          
+
+          
+
+          
+          
+            <div class="links-of-blogroll motion-element links-of-blogroll-inline">
+              <div class="links-of-blogroll-title">
+                <i class="fa  fa-fw fa-link"></i>
+                Links
+              </div>
+              <ul class="links-of-blogroll-list">
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://www.90hsa.com" title="https://www.90hsa.com" rel="noopener" target="_blank">90hsa</a>
+                  </li>
+                
+              </ul>
+            </div>
+          
+
+          
+            
+          
+          
+
+        </div>
+      </div>
+
+      
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#编译安装agent"><span class="nav-number">1.</span> <span class="nav-text">编译安装agent</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#编译agent"><span class="nav-number">1.1.</span> <span class="nav-text">编译agent</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#部署agent"><span class="nav-number">1.2.</span> <span class="nav-text">部署agent</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#配置告警："><span class="nav-number">2.</span> <span class="nav-text">配置告警：</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#编译安装mail-provider"><span class="nav-number">2.1.</span> <span class="nav-text">编译安装mail-provider</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#open-falcon实现邮件报警"><span class="nav-number">2.1.1.</span> <span class="nav-text">open-falcon实现邮件报警</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#编译mail-provider"><span class="nav-number">2.1.1.1.</span> <span class="nav-text">编译mail-provider</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#安装mail-provider"><span class="nav-number">2.1.1.2.</span> <span class="nav-text">安装mail-provider</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#测试邮件发送："><span class="nav-number">2.1.1.3.</span> <span class="nav-text">测试邮件发送：</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#编译安装sender"><span class="nav-number">2.2.</span> <span class="nav-text">编译安装sender</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#编译sender"><span class="nav-number">2.2.1.</span> <span class="nav-text">编译sender:</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#安装sender"><span class="nav-number">2.2.2.</span> <span class="nav-text">安装sender</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#配置监控和告警"><span class="nav-number">2.3.</span> <span class="nav-text">配置监控和告警</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#用户-组管理"><span class="nav-number">2.3.1.</span> <span class="nav-text">用户/组管理</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#创建告警组"><span class="nav-number">2.3.2.</span> <span class="nav-text">创建告警组</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#创建HostGroup"><span class="nav-number">2.3.3.</span> <span class="nav-text">创建HostGroup</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#创建策略模板"><span class="nav-number">2.3.4.</span> <span class="nav-text">创建策略模板</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#绑定策略模板到HostGroup"><span class="nav-number">2.3.5.</span> <span class="nav-text">绑定策略模板到HostGroup</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#告警信息"><span class="nav-number">2.3.6.</span> <span class="nav-text">告警信息</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#配置nodata"><span class="nav-number">3.</span> <span class="nav-text">配置nodata</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#新建nodata"><span class="nav-number">3.1.</span> <span class="nav-text">新建nodata</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#到dashboard上查看相应的counter"><span class="nav-number">3.2.</span> <span class="nav-text">到dashboard上查看相应的counter</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#查看一下对应的出图"><span class="nav-number">3.3.</span> <span class="nav-text">查看一下对应的出图</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#修改nodata"><span class="nav-number">3.4.</span> <span class="nav-text">修改nodata</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#nodata实现告警"><span class="nav-number">3.5.</span> <span class="nav-text">nodata实现告警</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#测试nodata告警"><span class="nav-number">3.5.1.</span> <span class="nav-text">测试nodata告警</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#dashboard上agent-avlie-counter"><span class="nav-number">3.5.2.</span> <span class="nav-text">dashboard上agent.avlie counter</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#告警alarm-dashbord"><span class="nav-number">3.5.3.</span> <span class="nav-text">告警alarm-dashbord</span></a></li></ol></li></ol></li></ol></div>
+            
+
+          </div>
+        </div>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">CianCHEN</span>
+
+  
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-area-chart"></i>
+    </span>
+    
+    <span title="站点总字数">12k</span>
+  
+
+  
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    
+    <span title="站点阅读时长">11 分钟</span>
+  
+</div>
+
+<div class="powered-by">
+<i class="fa fa-user-md"></i><span id="busuanzi_container_site_uv">
+  本站访客数:<span id="busuanzi_value_site_pv"></span>
+</span>
+  <span class="post-meta-divider">|</span>
+</div>
+
+
+
+  <div class="powered-by">由 <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v3.8.0</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> v6.6.0</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+    
+
+    
+  </div>
+
+  
+
+<script>
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+
+  
+
+
+  <script src="/js/src/utils.js?v=6.6.0"></script>
+
+  <script src="/js/src/motion.js?v=6.6.0"></script>
+
+
+
+  
+  
+
+
+  <script src="/js/src/affix.js?v=6.6.0"></script>
+
+  <script src="/js/src/schemes/pisces.js?v=6.6.0"></script>
+
+
+
+  
+  <script src="/js/src/scrollspy.js?v=6.6.0"></script>
+<script src="/js/src/post-details.js?v=6.6.0"></script>
+
+
+
+  
+
+
+  <script src="/js/src/bootstrap.js?v=6.6.0"></script>
+
+
+
+  
+
+
+
+  
+    <script>
+      window.livereOptions = {
+        refer: '2018/12/25/open-falcon之告警篇/'
+      };
+      (function(d, s) {
+        var j, e = d.getElementsByTagName(s)[0];
+        if (typeof LivereTower === 'function') { return; }
+        j = d.createElement(s);
+        j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+        j.async = true;
+        e.parentNode.insertBefore(j, e);
+      })(document, 'script');
+    </script>
+  
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+<script src="/live2dw/lib/L2Dwidget.min.js?0c58a1486de42ac6cc1c59c7d98ae887"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"debug":false,"model":{"jsonPath":"/live2dw/assets/assets/wanko.model.json"},"display":{"position":"right","width":150,"height":300},"mobile":{"show":true},"log":false});</script></body>
+</html>
