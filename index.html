@@ -372,6 +372,188 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://192.168.36.183:6888/2019/10/17/prometheus-grafana踩坑记/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="CianCHEN">
+      <meta itemprop="description" content="世间纷繁,乱花迷人眼,前路漫漫,勿忘初心~">
+      <meta itemprop="image" content="/img/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="CianCHEN | with code">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                
+                <a href="/2019/10/17/prometheus-grafana踩坑记/" class="post-title-link" itemprop="http://192.168.36.183:6888/index.html">prometheus-grafana踩坑记</a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2019-10-17 15:00:06 / 修改时间：15:13:49" itemprop="dateCreated datePublished" datetime="2019-10-17T15:00:06+08:00">2019-10-17</time>
+            
+
+            
+              
+
+              
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+            <div class="post-symbolscount">
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">本文字数：</span>
+                
+                <span title="本文字数">7.2k</span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">阅读时长 &asymp;</span>
+                
+                <span title="阅读时长">7 分钟</span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <p>prometheus + grafana 踩坑记</p>
+<p>一些参考地址<br><a href="https://blog.richliu.com/2019/02/13/3630/grafana-prometheus-python-client" target="_blank" rel="noopener">https://blog.richliu.com/2019/02/13/3630/grafana-prometheus-python-client</a><br><a href="https://yunlzheng.gitbook.io/prometheus-book/part-ii-prometheus-jin-jie/grafana/templating#shi-yong-bian-liang-dong-tai-chuang-jian-panel-he-row" target="_blank" rel="noopener">https://yunlzheng.gitbook.io/prometheus-book/part-ii-prometheus-jin-jie/grafana/templating#shi-yong-bian-liang-dong-tai-chuang-jian-panel-he-row</a>  //比较全面的配置<br><a href="https://www.ibm.com/developerworks/cn/cloud/library/cl-lo-prometheus-getting-started-and-practice/index.html" target="_blank" rel="noopener">https://www.ibm.com/developerworks/cn/cloud/library/cl-lo-prometheus-getting-started-and-practice/index.html</a><br><a href="https://www.zhukun.net/archives/8281" target="_blank" rel="noopener">https://www.zhukun.net/archives/8281</a></p>
+<p>部署详解：<br><a href="https://www.aneasystone.com/archives/2018/11/prometheus-in-action.html" target="_blank" rel="noopener">https://www.aneasystone.com/archives/2018/11/prometheus-in-action.html</a><br><a href="https://www.hi-linux.com/posts/25047.html" target="_blank" rel="noopener">https://www.hi-linux.com/posts/25047.html</a></p>
+<p><a href="https://songjiayang.gitbooks.io/prometheus/content/ha/prometheus.html" target="_blank" rel="noopener">https://songjiayang.gitbooks.io/prometheus/content/ha/prometheus.html</a>  //高可用 和 热加载<br><a href="http://chenzhijun.me/2018/05/02/nginx-proxy-promethues-grafana/" target="_blank" rel="noopener">http://chenzhijun.me/2018/05/02/nginx-proxy-promethues-grafana/</a>  反向代理prometheus 和 grafana</p>
+<h4 id="prometheus的架构"><a href="#prometheus的架构" class="headerlink" title="prometheus的架构"></a>prometheus的架构</h4><p>官方的架构图：<br><img src="/2019/10/17/prometheus-grafana踩坑记/e1a0e83d.png" alt="e1a0e83d.png"><br><code>Retrieval</code>：中定义了Prometheus Server需要从哪些地方拉取数据<br><code>Jobs / Exporters</code>：Prometheus可以从Jobs或Exporters中拉取监控数据。Exporter以Web API的形式对外暴露数据采集接口。<br><code>Prometheus Server</code>：Prometheus还可以从其他的Prometheus Server中拉取数据<br><code>Pushgateway</code>：对于一些以临时性Job运行的组件，Prometheus可能还没有来得及从中pull监控数据的情况下，这些Job已经结束了，Job运行时可以在运行时将监控数据推送到Pushgateway中，Prometheus从Pushgateway中拉取数据，防止监控数据丢失<br><code>Service</code>：是指Prometheus可以动态的发现一些服务，拉取数据进行监控，如从DNS，Kubernetes，Consul中发现<br><code>Storage</code>：即Prometheus的存储，利用Prometheus Server的本地存储<br><code>PromQL</code>：是Prometheus的查询语句，利用PromQL可以和一些WEBUI(如Grafana)集成<br><code>AlertManager</code>：是一个独立于Prometheus的外部组件，用于监控系统的告警，通过配置文件可以配置一些告警规则，Prometheus会把告警推送到AlertManager。</p>
+<h4 id="1-搭建prometheus-服务端"><a href="#1-搭建prometheus-服务端" class="headerlink" title="1.搭建prometheus 服务端"></a>1.搭建prometheus 服务端</h4><h5 id="1-1-获取最新的二进制包"><a href="#1-1-获取最新的二进制包" class="headerlink" title="1.1 获取最新的二进制包"></a>1.1 获取最新的二进制包</h5><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">wget  https://github.com/prometheus/prometheus/releases/download/v2.10.0/prometheus-2.10.0.linux-amd64.tar.gz</span><br></pre></td></tr></table></figure>
+<h5 id="1-2-解压检测版本"><a href="#1-2-解压检测版本" class="headerlink" title="1.2 解压检测版本"></a>1.2 解压检测版本</h5><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">tar xf prometheus-2.10.0.linux-amd64.tar.gz -C ./prometheus --strip-components 1</span><br><span class="line"><span class="built_in">cd</span> prometheus</span><br><span class="line">./prometheus --version</span><br><span class="line">prometheus, version 2.10.0 (branch: HEAD, revision: d20e84d0fb64aff2f62a977adc8cfb656da4e286)</span><br><span class="line">  build user:       root@a49185acd9b0</span><br><span class="line">  build date:       20190525-12:28:13</span><br><span class="line">  go version:       go1.12.5</span><br></pre></td></tr></table></figure>
+          <!--noindex-->
+          
+            <div class="post-button text-center">
+              <a class="btn" href="/2019/10/17/prometheus-grafana踩坑记/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+         
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://192.168.36.183:6888/2019/01/08/xtrabackup-全备-增备和还原测试/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
@@ -1242,7 +1424,7 @@
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">4</span>
+                    <span class="site-state-item-count">5</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
@@ -1280,7 +1462,9 @@
                     
                       
                     
-                    <span class="site-state-item-count">4</span>
+                      
+                    
+                    <span class="site-state-item-count">5</span>
                     <span class="site-state-item-name">标签</span>
                   </a>
                 </div>
@@ -1372,7 +1556,7 @@
       <i class="fa fa-area-chart"></i>
     </span>
     
-    <span title="站点总字数">23k</span>
+    <span title="站点总字数">30k</span>
   
 
   
@@ -1381,7 +1565,7 @@
       <i class="fa fa-coffee"></i>
     </span>
     
-    <span title="站点阅读时长">21 分钟</span>
+    <span title="站点阅读时长">27 分钟</span>
   
 </div>
 
